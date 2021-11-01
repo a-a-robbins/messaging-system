@@ -1,3 +1,10 @@
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +16,8 @@
  * @author DanAsh4Ever
  */
 public class FollowingListDialog extends javax.swing.JDialog {
+            private static final String FOLLOW = "Follow"; 
+
 
     /**
      * Creates new form FollowingListDialog
@@ -157,8 +166,44 @@ public class FollowingListDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void followBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_followBtnActionPerformed
-        String name = searchFld.getText(); 
-        //User u = 
+           try {
+            
+            //create GUIUser
+           // GUIUser u = new GUIUser(); 
+           
+           
+            //create a host
+            String host = "localhost"; 
+            
+            //create a socket connection
+            Socket sock = new Socket(host, 2001); 
+            
+            //create the IO stream
+            Scanner in = new Scanner(sock.getInputStream()); 
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+            
+            //do stuff as a protocol
+            out.println(FOLLOW); 
+            out.println(searchFld.getText()); 
+            //out.println(dialog.getName());  ??Need to get the name...how do I get to GUIUser/instantiation quests
+            
+            String result = in.nextLine(); 
+            JOptionPane.showMessageDialog(FollowingListDialog.this, result); 
+            
+            //**FIXME** dispose of dialog
+            if(result.equals("registration success!")) {
+
+                this.dispose();
+           }
+            
+        
+        }
+        
+        catch (IOException e) {
+            
+            //print error
+            System.err.println("IOEXCEPTION" + e.getMessage());
+        }
     }//GEN-LAST:event_followBtnActionPerformed
 
     private void unfollowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfollowBtnActionPerformed

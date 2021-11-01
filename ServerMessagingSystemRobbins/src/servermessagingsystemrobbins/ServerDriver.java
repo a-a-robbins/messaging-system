@@ -103,7 +103,6 @@ public class ServerDriver {
                         System.out.println("Whoops, something went wrong because you're getting the default message"); 
                         System.out.println("Expected cases: LogOn, Register, or LogOff"); 
                         break;                        
-                        
                 }               
             }            
         }
@@ -111,6 +110,7 @@ public class ServerDriver {
         catch (IOException e) {
             //throw error message, perhaps write to a log later
             System.err.println(e.getMessage()); 
+
         }   
         
         
@@ -151,6 +151,14 @@ public class ServerDriver {
 */
         
     }
+    
+    
+    /***FUN IDEA: see if we can eliminate using these and just
+     * use the map variable to call from UserMap (since it already
+     * returns a string and we are calling to it anyway...these may 
+     * be redundant***/
+    
+    //PS, don't forget to do this as a separate class in case it doesn't work 
     
     public String register(String name, String pass) {
         String result = map.register(name, pass); 
