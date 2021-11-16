@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /*
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class UserHomepageFrame extends javax.swing.JFrame {
         private static final String LOGOFF = "LogOff"; 
-
+        GUIUser gu = new GUIUser(""); 
 
     /**
      * Creates new form UserHomepageFrame
@@ -38,9 +39,12 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 });
             dialog.setVisible(true);
             
+            
+            //creating a GUIUser to save important user info
+            gu.setName(dialog.getUsername()); 
+
             //saving username to display on homepage frame & use for logging off method
-            String name = dialog.getUsername(); 
-            usernameLbl.setText(name); 
+            usernameLbl.setText(gu.getName()); 
     }
     
     /**
@@ -74,7 +78,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         viewMessagesLabel.setText("View Messages");
 
         CreateMessageLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        CreateMessageLabel.setText("Create Message");
+        CreateMessageLabel.setText("Send Message");
 
         searchMessagesLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         searchMessagesLabel.setText("Search Messages");
@@ -131,6 +135,11 @@ public class UserHomepageFrame extends javax.swing.JFrame {
 
         searchMessagesButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         searchMessagesButton.setText("Go");
+        searchMessagesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchMessagesButtonActionPerformed(evt);
+            }
+        });
 
         friendsButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         friendsButton.setText("Go");
@@ -245,20 +254,27 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewMessagesButtonActionPerformed
-        // TODO add your handling code here:
+        JDialog dialog = new ViewMessagesDialog(); 
+        dialog.setSize(600, 400); 
+        dialog.setVisible(true); 
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+       
     }//GEN-LAST:event_viewMessagesButtonActionPerformed
 
     private void createMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMessageButtonActionPerformed
-        //create a message dialog
-        //put inside an IF loop because if user status != true, should not execute
-        createMessageDialog dialog = new createMessageDialog(new javax.swing.JFrame(), true);
-               /* dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    
+            java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     }
-                }); */
+                });
                 dialog.setVisible(true);
+            }
+        }); 
     }//GEN-LAST:event_createMessageButtonActionPerformed
 
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOffButtonActionPerformed
@@ -282,7 +298,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logOffButtonActionPerformed
 
     private void friendsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendsButtonActionPerformed
-       FollowingListDialog dialog = new FollowingListDialog(new javax.swing.JFrame(), true);
+       FollowingListDialog dialog = new FollowingListDialog(new javax.swing.JFrame(), true, gu);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -292,6 +308,13 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 dialog.setVisible(true);
 
     }//GEN-LAST:event_friendsButtonActionPerformed
+
+    private void searchMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMessagesButtonActionPerformed
+ /* Create and display the dialog */
+        JDialog dialog = new SearchMessagesDialog(); 
+        dialog.setSize(600, 400); 
+        dialog.setVisible(true); 
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);    }//GEN-LAST:event_searchMessagesButtonActionPerformed
 
     /**
      * @param args the command line arguments

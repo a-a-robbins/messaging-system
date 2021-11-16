@@ -17,13 +17,12 @@ import java.util.Scanner;
  */
 public class ServerDriver {
 
-   //private String name = ""; //since these are being passed through main and they need to be static, should they be local to main?
-  // private String pass = ""; 
-  // private String address; 
-   private UserMap map; 
+ private UserMap map; 
+ private MessageList list; 
    
    public ServerDriver(){
        map = new UserMap(); 
+       list = new MessageList(); 
    }
    
     public static void main(String[] args) {
@@ -35,17 +34,22 @@ public class ServerDriver {
       String name = "Miles";  // ? why can't I use the idea of this.name here ? 
       String pass = "pwd1";
       server.register(name, pass); 
-      server.logOn(name, pass); 
+      //server.logOn(name, pass); 
       
       name = "Mazie"; 
       pass = "pwd1"; 
       server.register(name, pass); 
-      server.logOn(name, pass); 
+      //server.logOn(name, pass); 
       
       //Tinkerbell is open to test bad pass log in
       name = "Tinkerbell"; 
       pass = "pwd2"; 
       server.register(name, pass); 
+      
+      //testing follow connection
+      server.follow("Miles", "Tinkerbell");
+      server.follow("Mazie", "Tinkerbell"); 
+      
       
       String result; 
         
@@ -97,11 +101,47 @@ public class ServerDriver {
                         result = server.logOff(name); 
                         System.out.println(result);
                         out.println(result); 
-                        break;                
+                        break;  
+                        
+                    case "Follow" : 
+                        String personDoingFollowing = in.nextLine(); 
+                        String personBeingFollowed = in.nextLine(); 
+                        out.println("okay");                    
+                        result = server.follow(personDoingFollowing, personBeingFollowed); 
+                        out.println(result);
+                        break; 
+                     
+                    case "Unfollow" :
+                        String currentUser = in.nextLine(); 
+                        String personToUnfollow = in.nextLine(); 
+                        out.println("okay");                    
+                        result = server.unfollow(currentUser, personToUnfollow); 
+                        out.println(result);
+                        break; 
+                        
+                    case "Display" :
+                        name = in.nextLine(); 
+                        String type = in.nextLine(); 
+                        out.println("okay");
+                        FollowList displayList = server.display(name, type);
+                        out.println(Integer.toString(displayList.size()));
+                            for(int i = 0; i < displayList.size(); i++) {
+                                out.println(displayList.get(i));
+                            }
+                        break; 
+                        
+                     case "Send" :
+                        String sendTo = in.nextLine(); 
+                        String hashtag = in.nextLine(); 
+                        String message = in.nextLine(); 
+                        out.println("okay");                    
+                        result = server.send(sendTo, hashtag, message); 
+                        out.println(result);
+                        break; 
                     
                     default: 
-                        System.out.println("Whoops, something went wrong because you're getting the default message"); 
-                        System.out.println("Expected cases: LogOn, Register, or LogOff"); 
+                        out.println("Whoops, something went wrong because you're getting the default message"); 
+                        out.println("Expected cases: LogOn, Register, LogOff, Follow, Unfollow, Display"); 
                         break;                        
                 }               
             }            
@@ -113,53 +153,10 @@ public class ServerDriver {
 
         }   
         
-        
-        
-       /* THIS IS ALL TESTING METHODS WITH NO CONNECTION
-        ServerDriver server = new ServerDriver();
-        String name = "Miles";  // ? why can't I use the idea of this.name here ? 
-        String pass = "pwd1"; 
-        
-        
-        //testing registration
-        String conf = server.register(name, pass);
-        System.out.println(conf);
-      
-        //testing for invalid registration (same name)
-        conf = server.register(name, pass); 
-        System.out.println(conf); 
-               
-        //testing for valid log in
-        String result = server.logOn(name, pass);
-        System.out.println(result); 
-        
-        //testing for invalid log in (bad password)
-        result = server.logOn(name, "notThePassword"); 
-        System.out.println(result); 
-
-        //testing for invalid log in (bad username)
-        result = server.logOn("Mazie", pass); 
-        System.out.println(result); 
-        
-        //testing for invalid log in (bad pass and bad name)
-        result = server.logOn("Mazie", "notThePassword"); 
-        System.out.println(result); 
-        
-        //testing log off
-        result = server.logOff(name); 
-        System.out.println(result); 
-*/
-        
     }
     
     
-    /***FUN IDEA: see if we can eliminate using these and just
-     * use the map variable to call from UserMap (since it already
-     * returns a string and we are calling to it anyway...these may 
-     * be redundant***/
-    
-    //PS, don't forget to do this as a separate class in case it doesn't work 
-    
+  
     public String register(String name, String pass) {
         String result = map.register(name, pass); 
         return result;  
@@ -175,4 +172,22 @@ public class ServerDriver {
         return result; 
     }
     
+    public String follow(String personDoingFollowing, String personBeingFollowed) {
+        String result = map.follow(personDoingFollowing, personBeingFollowed); 
+        return result; 
+    }
+    
+    public String unfollow(String personDoingUnfollowing, String personBeingUnfollowed) {
+        String result = map.unfollow(personDoingUnfollowing, personBeingUnfollowed); 
+        return result; 
+    }
+    
+    public FollowList display(String name, String type) {
+        FollowList result = map.display(name, type); 
+        return result;
+    }
+    
+    public String send(String sendTo, String hashtag, String message) {
+        return ""; 
+    }
 }

@@ -8,12 +8,12 @@
  *
  * @author DanAsh4Ever
  */
-public class createMessageDialog extends javax.swing.JDialog {
+public class SendMessageDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form createMessageDialog
      */
-    public createMessageDialog(java.awt.Frame parent, boolean modal) {
+    public SendMessageDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -34,10 +34,11 @@ public class createMessageDialog extends javax.swing.JDialog {
         titleLabel = new javax.swing.JLabel();
         fromTextField = new javax.swing.JTextField();
         toTextField = new javax.swing.JTextField();
-        messageScrollPane = new javax.swing.JScrollPane();
-        messageTextArea = new javax.swing.JTextArea();
+        messageTxt = new javax.swing.JTextField();
+        messageLbl = new javax.swing.JLabel();
         sendButtonPanel = new javax.swing.JPanel();
         sendButton = new javax.swing.JButton();
+        cancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -65,11 +66,16 @@ public class createMessageDialog extends javax.swing.JDialog {
         toLabel.setText("To: ");
 
         titleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        titleLabel.setText("Title:");
+        titleLabel.setText("#");
 
         fromTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         toTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        messageTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        messageLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        messageLbl.setText("Message: ");
 
         javax.swing.GroupLayout sendingInfoPanelLayout = new javax.swing.GroupLayout(sendingInfoPanel);
         sendingInfoPanel.setLayout(sendingInfoPanelLayout);
@@ -79,11 +85,13 @@ public class createMessageDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(titleLabel)
-                    .addComponent(toLabel))
+                    .addComponent(toLabel)
+                    .addComponent(messageLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(toTextField)
-                    .addComponent(fromTextField))
+                    .addComponent(fromTextField)
+                    .addComponent(messageTxt))
                 .addContainerGap())
         );
         sendingInfoPanelLayout.setVerticalGroup(
@@ -97,31 +105,48 @@ public class createMessageDialog extends javax.swing.JDialog {
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titleLabel)
                     .addComponent(fromTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(messageTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(messageLbl))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
-
-        messageTextArea.setColumns(20);
-        messageTextArea.setRows(5);
-        messageScrollPane.setViewportView(messageTextArea);
 
         sendButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         sendButton.setText("Send");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
+
+        cancelBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout sendButtonPanelLayout = new javax.swing.GroupLayout(sendButtonPanel);
         sendButtonPanel.setLayout(sendButtonPanelLayout);
         sendButtonPanelLayout.setHorizontalGroup(
             sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sendButtonPanelLayout.createSequentialGroup()
-                .addGap(155, 155, 155)
+                .addGap(127, 127, 127)
                 .addComponent(sendButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sendButtonPanelLayout.setVerticalGroup(
             sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sendButtonPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sendButton)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sendButton)
+                    .addComponent(cancelBtn))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,7 +157,6 @@ public class createMessageDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(titlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(messageScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sendingInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sendButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -144,8 +168,6 @@ public class createMessageDialog extends javax.swing.JDialog {
                 .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sendingInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(messageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sendButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -154,53 +176,21 @@ public class createMessageDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(createMessageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(createMessageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(createMessageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(createMessageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
 
-        /* Create and display the dialog */
-       /* java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                createMessageDialog dialog = new createMessageDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        }); */
-    }
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel createMessageDialogLabel;
     private javax.swing.JTextField fromTextField;
-    private javax.swing.JScrollPane messageScrollPane;
-    private javax.swing.JTextArea messageTextArea;
+    private javax.swing.JLabel messageLbl;
+    private javax.swing.JTextField messageTxt;
     private javax.swing.JButton sendButton;
     private javax.swing.JPanel sendButtonPanel;
     private javax.swing.JPanel sendingInfoPanel;

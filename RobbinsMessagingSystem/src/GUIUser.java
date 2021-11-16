@@ -14,10 +14,14 @@ public class GUIUser {
     private String pass; 
     private boolean status; 
     
-    public GUIUser(String name, String pass) {
+    public GUIUser(String name) {
         this.name = name; 
-        this.pass = pass; 
-        this.status = false; 
+        //this.pass = pass; 
+        this.status = true; 
+    }
+    
+    public void setName(String n) {
+        name = n; 
     }
     
     public String getName() {

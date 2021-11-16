@@ -21,7 +21,7 @@ public class UserMap {
     }
     
     public String register(String name, String pass) {
-        String result = ""; 
+        String result; 
         if(!theUsers.containsKey(name)) {
             User newUser = new User(name, pass); 
             theUsers.put(name, newUser); 
@@ -58,8 +58,8 @@ public class UserMap {
     
     public String logOff(String name) {
         String result; 
-        //check status before logging off (make sure they are already logged on)
-        //make sure you are logging off a valid user
+        //FIXME: check status before logging off (make sure they are already logged on)
+        //FIXME: make sure you are logging off a valid user
         User u = theUsers.get(name); 
         u.setStatus(false);
             if(!u.checkStatus()) {
@@ -68,6 +68,62 @@ public class UserMap {
             else {
                 result = "whoops, something went wrong --- you're still logged on!"; 
             }
+        return result; 
+    }
+    
+    public String follow(String personDoingFollowing, String personBeingFollowed) {
+       String result; 
+        
+       //check for valid user 
+       if(theUsers.containsKey(personDoingFollowing) && theUsers.containsKey(personBeingFollowed)) {
+            User doingFollowing = theUsers.get(personDoingFollowing); 
+            User beingFollowed = theUsers.get(personBeingFollowed); 
+            
+            result = doingFollowing.toFollow(personBeingFollowed);
+            beingFollowed.beingFollow(personDoingFollowing);
+               /* System.out.println("following " + result);
+                FollowList list = doingFollowing.display("peopleIAmFollowing");
+                    System.out.println("People I Am Following"); 
+                    for(int i = 0; i < list.size(); i++) {
+                                System.out.println(list.get(i));
+                            }             beingFollowed.beingFollow(personDoingFollowing); 
+                System.out.println(result +"'s list has been updated"); 
+                list = 
+                     beingFollowed.display("peopleFollowingMe"); 
+                   System.out.println("People Following Me: "); 
+                    for(int i = 0; i < list.size(); i++) {
+                                System.out.println(list.get(i));
+                            }       */     
+            
+       }
+       else {
+           result = "User " + personBeingFollowed + " does not exist, please verify input"; 
+       }
+
+       return result; 
+    }
+   
+    
+    public String unfollow(String personDoingUnfollowing, String personBeingUnfollowed) {
+       String result;  
+        //CHECK FOR VALID USER
+       if(theUsers.containsKey(personDoingUnfollowing) && theUsers.containsKey(personBeingUnfollowed)) {
+            User doingUnfollowing = theUsers.get(personDoingUnfollowing); 
+            User beingUnfollowed = theUsers.get(personBeingUnfollowed); 
+            
+            result = doingUnfollowing.toUnfollow(personBeingUnfollowed);  
+            beingUnfollowed.beingUnfollowed(personDoingUnfollowing);         
+       }
+       else {
+           result = "User " + personBeingUnfollowed + " does not exist, please verify input"; 
+       }
+
+        return result; 
+    }
+    
+    public FollowList display(String name, String type) {
+        User u = theUsers.get(name); 
+        FollowList result = u.display(type);
         return result; 
     }
 }
