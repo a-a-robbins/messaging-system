@@ -5,6 +5,8 @@
  */
 package servermessagingsystemrobbins;
 
+import java.net.InetAddress;
+
 /**
  *
  * @author a-a-robbins
@@ -13,6 +15,7 @@ public class User {
     
     private String name; 
     private String pass; 
+    private String address; //not sure why this is showing not read?  
     private boolean status; 
     private FollowList peopleIAmFollowing = new FollowList(); 
     private FollowList peopleFollowingMe = new FollowList(); 
@@ -31,8 +34,18 @@ public class User {
         return pass; 
     }
     
+    public String getAddress() {
+        return address; 
+    }
+    
     public boolean getStatus() {
         return status; 
+    }
+    
+    public String setAddress(InetAddress addy) {
+        address = addy.toString();
+        System.out.println(address);
+        return address; 
     }
     
     public boolean setStatus(boolean stat) {
@@ -67,9 +80,12 @@ public class User {
     public String beingFollow(String personDoingFollow) {
         String result; 
         
-      //CHECK TOO SEE IF ALREADY FOLLOWING
+      //CHECK TO SEE IF ALREADY FOLLOWING
       if(!peopleFollowingMe.contains(personDoingFollow)) {
          result = peopleFollowingMe.follow(personDoingFollow);
+            if(result.equals(personDoingFollow + "added")) {
+                return result; 
+             }
       }
       else {
           result = "This person is already being followed by you"; 
@@ -118,8 +134,7 @@ public class User {
                 empty.add("bad command, missing data"); 
                 return empty; 
 
-       
-       }
-        
+       } 
     }
+
 }

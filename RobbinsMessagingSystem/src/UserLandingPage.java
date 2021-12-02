@@ -80,6 +80,12 @@ public class UserLandingPage extends javax.swing.JDialog {
         passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         passwordLabel.setText("password: ");
 
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
+            }
+        });
+
         usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameFieldActionPerformed(evt);
@@ -125,6 +131,11 @@ public class UserLandingPage extends javax.swing.JDialog {
 
         aboutButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         aboutButton.setText("ABOUT");
+        aboutButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                aboutButtonKeyPressed(evt);
+            }
+        });
 
         learnMoreLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         learnMoreLabel3.setText("section to learn more!");
@@ -323,6 +334,47 @@ public class UserLandingPage extends javax.swing.JDialog {
        }
         
     }//GEN-LAST:event_logInButtonActionPerformed
+
+    private void aboutButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_aboutButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_aboutButtonKeyPressed
+
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+        if(evt.equals("Enter")) {
+            try { 
+            //create a host, localhost = local machine (no need for IP address)
+            String host = "localhost"; 
+
+            //connect to specified host on Server port#
+            Socket sock = new Socket(host, 2001); 
+            
+            //create IO stream from socket
+            Scanner in = new Scanner(sock.getInputStream()); 
+            
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+            
+                    
+            //create protocol
+            out.println(LOGON); 
+            out.println(usernameField.getText()); 
+            out.println(passwordField.getText());  
+            
+            String result = in.nextLine(); 
+            JOptionPane.showMessageDialog(UserLandingPage.this, result); 
+            
+            //close dialog but not system
+            if(result.equals("valid log on")) { 
+                this.dispose(); 
+            }      
+            
+       }
+       
+       catch (IOException e) {
+           //generate error message, perhaps write to log later
+           System.err.println("IOEXCEPTION" + e.getMessage());
+       }
+        }
+    }//GEN-LAST:event_passwordFieldKeyPressed
 
     /**
      * @param args the command line arguments

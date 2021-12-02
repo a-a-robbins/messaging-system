@@ -39,6 +39,11 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 });
             dialog.setVisible(true);
             
+         //start thread
+         ListenerThread lt = new ListenerThread(); 
+         Thread t = new Thread(lt); 
+         t.start(); 
+            
             
             //creating a GUIUser to save important user info
             gu.setName(dialog.getUsername()); 
@@ -254,7 +259,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewMessagesButtonActionPerformed
-        JDialog dialog = new ViewMessagesDialog(); 
+        JDialog dialog = new ViewMessagesDialog(gu.getName()); 
         dialog.setSize(600, 400); 
         dialog.setVisible(true); 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -263,9 +268,10 @@ public class UserHomepageFrame extends javax.swing.JFrame {
 
     private void createMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMessageButtonActionPerformed
                     
-            java.awt.EventQueue.invokeLater(new Runnable() {
+        String username = gu.getName();     
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true);
+                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true, username);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -287,6 +293,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
             out.println(LOGOFF);
             out.println(usernameLbl.getText()); 
             JOptionPane.showMessageDialog(UserHomepageFrame.this, in.nextLine()); 
+            gu.setStatus(false); 
         }
         
         catch(IOException e) {

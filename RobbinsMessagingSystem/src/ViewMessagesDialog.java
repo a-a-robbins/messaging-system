@@ -3,16 +3,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
 import javax.swing.*;
+import java.sql.Timestamp; 
 
 /**
  *
  * @author a-a-robbins
  */
 public class ViewMessagesDialog extends JDialog {
+    private String user; 
     
     //constructor
-    public ViewMessagesDialog() {    
+    public ViewMessagesDialog(String username) { 
+        user = username; 
+        
       //set window title
       setTitle("View Messages"); 
       
@@ -28,14 +36,12 @@ public class ViewMessagesDialog extends JDialog {
       JScrollPane ltPane = new JScrollPane(lt); 
       contentPane.add(ltPane); 
       contentPane.add(unreadButton); 
-      contentPane.add(allButton); 
       contentPane.add(refreshButton); 
       contentPane.add(doneButton); 
       
       //specify listeners
       lt.addMouseListener(new ListMouseListener()); 
-      unreadButton.addActionListener(new AddListener()); 
-      allButton.addActionListener(new AllListener()); 
+      unreadButton.addActionListener(new UnreadListener()); 
       refreshButton.addActionListener(new RefreshListener()); 
       doneButton.addActionListener(new DoneListener()); 
       //addWindowListener(new MyWindowAdapter()); 
@@ -46,7 +52,6 @@ public class ViewMessagesDialog extends JDialog {
     private JList lt = new JList(lm); 
     
     private JButton unreadButton = new JButton("Unread"); 
-    private JButton allButton = new JButton("See All"); 
     private JButton refreshButton = new JButton("Refresh"); 
     private JButton doneButton = new JButton("Done"); 
     
@@ -60,27 +65,128 @@ public class ViewMessagesDialog extends JDialog {
         }
     }
     
-    private class AddListener implements ActionListener {
+    private class UnreadListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //do stuff
+            //connect to server to retrieve messages
+            try {
+                //clear text area
+                lm.removeAllElements();
+
+                //create an array of strings
+                String[] array; 
+
+                //create a host
+                String host = "localhost"; 
+
+                //create a socket connection
+                Socket sock = new Socket(host, 2001); 
+
+                //create the IO stream
+                Scanner in = new Scanner(sock.getInputStream()); 
+                PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+
+                //do stuff as a protocol
+                out.println("Unread");
+                //pass username - FIXME: server side reveiving
+                out.println(user); 
+                
+
+                //get confirmation back
+                if(in.nextLine().equals("okay"))
+                {
+                    //get size of array
+                   int size = Integer.parseInt(in.nextLine()); 
+                   array = new String[size]; 
+
+                    //loop to bring in strings from server arraylist
+                    for(int i = 0; i < size; i++) {
+                       array[i] = in.nextLine();                   
+                    }
+
+                    for(int i = 0; i < ((array.length)); i++) {
+                        lm.addElement(array[i]); 
+                    }
+                }
+                
+                else{
+                     JOptionPane.showMessageDialog(ViewMessagesDialog.this, "something went wrong and we didn't get 'okay' back..."); 
+                }
         }
+        
+         catch (IOException x) {
+            
+            //print error
+            System.err.println("IOEXCEPTION" + x.getMessage());
+        } 
+      }
     }
     
-    private class AllListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            //do stuff
-        }
-    }
     
     private class RefreshListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //do stuff
+//connect to server to retrieve messages
+            try {
+                //clear text area
+                lm.removeAllElements();
+
+                //create an array of strings
+                String[] array; 
+
+                //create a host
+                String host = "localhost"; 
+
+                //create a socket connection
+                Socket sock = new Socket(host, 2001); 
+
+                //create the IO stream
+                Scanner in = new Scanner(sock.getInputStream()); 
+                PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+
+                //do stuff as a protocol
+                out.println("Refresh");
+                //pass username - FIXME: server side reveiving
+                out.println(user); 
+                
+
+                //get confirmation back
+                if(in.nextLine().equals("okay"))
+                {
+                    //get size of array
+                   int size = Integer.parseInt(in.nextLine()); 
+                   array = new String[size]; 
+
+                    //loop to bring in strings from server arraylist
+                    for(int i = 0; i < size; i++) {
+                       array[i] = in.nextLine();                   
+                    }
+
+                    for(int i = 0; i < ((array.length)); i++) {
+                        lm.addElement(array[i]); 
+                    }
+                }
+                
+                else{
+                     JOptionPane.showMessageDialog(ViewMessagesDialog.this, "something went wrong and we didn't get 'okay' back..."); 
+                }
         }
+        
+         catch (IOException x) {
+            
+            //print error
+            System.err.println("IOEXCEPTION" + x.getMessage());
+        } 
+      }
     }
     
     public class DoneListener implements ActionListener {
+
+        /**
+         *
+         * @param e
+         */
+        @Override
         public void actionPerformed(ActionEvent e) {
-            
+            dispose(); 
         }
     }
     

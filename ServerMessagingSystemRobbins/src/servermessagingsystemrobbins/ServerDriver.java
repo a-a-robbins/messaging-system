@@ -10,6 +10,11 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Timestamp;
+//import java.time.LocalDate;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 /**
  *
@@ -18,11 +23,13 @@ import java.util.Scanner;
 public class ServerDriver {
 
  private UserMap map; 
- private MessageList list; 
+ private ArrayList mList;
+ private MessageList2 list;  
    
    public ServerDriver(){
        map = new UserMap(); 
-       list = new MessageList(); 
+       mList = new ArrayList<Message>();
+       list = new MessageList2(); 
    }
    
     public static void main(String[] args) {
@@ -30,9 +37,9 @@ public class ServerDriver {
       ServerDriver server = new ServerDriver();
       
       
-      //register and log in test users
-      String name = "Miles";  // ? why can't I use the idea of this.name here ? 
-      String pass = "pwd1";
+      //TEST: register and log in test users
+      String name = "Miles";
+      String pass = "pwd1"; 
       server.register(name, pass); 
       //server.logOn(name, pass); 
       
@@ -41,15 +48,24 @@ public class ServerDriver {
       server.register(name, pass); 
       //server.logOn(name, pass); 
       
-      //Tinkerbell is open to test bad pass log in
       name = "Tinkerbell"; 
       pass = "pwd2"; 
       server.register(name, pass); 
       
-      //testing follow connection
+      //TEST:  follow connection
       server.follow("Miles", "Tinkerbell");
-      server.follow("Mazie", "Tinkerbell"); 
+      server.follow("Miles", "Mazie"); 
+      server.follow("Mazie", "Tinkerbell");
       
+      //TEST:  historical messages
+      server.send("Mazie", "past", "test message from Mazie", LocalDate.parse("2021-10-30"));      
+      server.send("Miles", "past", "test message from Miles", LocalDate.parse("2020-05-02"));
+      server.send("Tinkerbell", "past", "test message from Tinkerbell", LocalDate.parse("2020-05-03"));
+      //TEST: future messages should not show up
+      server.send("Tinkerbell", "future", "test message in future from Tinkerbell", LocalDate.parse("2021-12-22"));
+      server.send("Miles", "future", "test message in future from Miles", LocalDate.parse("2044-03-29"));
+      server.send("Tinkerbell", "future", "test message in future #2 from Tinkerbell", LocalDate.parse("2052-01-01"));
+            
       
       String result; 
         
@@ -82,15 +98,16 @@ public class ServerDriver {
                     case "LogOn" :
                         name = in.nextLine();
                         pass = in.nextLine();
-                        result = server.logOn(name, pass);
+                        InetAddress address = client.getInetAddress(); 
+                        result = server.logOn(name, pass, address);
                         System.out.println(result);
                         out.println(result);
                         break; 
                     
                     case "Register" :
                         name = in.nextLine(); 
-                        pass = in.nextLine(); 
-                        //String email = in.nextLine(); 
+                        pass = in.nextLine();
+                       // address = client.getInetAddress(); 
                         result = server.register(name, pass);
                         System.out.println(result);
                         out.println(result);
@@ -109,6 +126,11 @@ public class ServerDriver {
                         out.println("okay");                    
                         result = server.follow(personDoingFollowing, personBeingFollowed); 
                         out.println(result);
+                        //need to think about a parameter to notify the user being followed, names and addresses
+                        User u = server.getUser(personDoingFollowing); 
+                        NotificationThread nt = new NotificationThread(u); 
+                        Thread t = new Thread(nt); 
+                        t.start(); 
                         break; 
                      
                     case "Unfollow" :
@@ -131,13 +153,37 @@ public class ServerDriver {
                         break; 
                         
                      case "Send" :
-                        String sendTo = in.nextLine(); 
+                        String sender = in.nextLine(); 
                         String hashtag = in.nextLine(); 
-                        String message = in.nextLine(); 
-                        out.println("okay");                    
-                        result = server.send(sendTo, hashtag, message); 
+                        String message = in.nextLine();
+                        LocalDate timestamp = LocalDate.now();    
+                        out.println("okay"); 
+                        System.out.println("timestamp = " + timestamp); 
+                        result = server.send(sender, hashtag, message, timestamp); 
                         out.println(result);
                         break; 
+                        
+                     case "Unread" : 
+                        name = in.nextLine(); 
+                        timestamp = LocalDate.now();                        
+                        out.println("okay"); 
+                        MessageList2 m = server.retrieve("Unread", name, timestamp );
+                        out.println(Integer.toString(m.size()));
+                            for(int i = 0; i < m.size(); i++) {
+                                out.println(m.get(i));
+                            }
+                        break;
+                     
+                     case "Search" :
+                         timestamp = LocalDate.now(); 
+                         String keyword = in.nextLine(); 
+                         out.println("okay");
+                         m = server.retrieve("Search", keyword, timestamp); 
+                         out.println(Integer.toString(m.size())); 
+                            for(int i = 0; i < m.size(); i++) {
+                                out.println(m.get(i)); 
+                            }
+                         break;
                     
                     default: 
                         out.println("Whoops, something went wrong because you're getting the default message"); 
@@ -162,8 +208,12 @@ public class ServerDriver {
         return result;  
     }
     
-    public String logOn(String name, String pass){
-        String result = map.logOn(name, pass); 
+    public User getUser(String name) {
+        return map.getUser(name); 
+    }
+    
+    public String logOn(String name, String pass, InetAddress address){
+        String result = map.logOn(name, pass, address); 
         return result; 
     }
     
@@ -187,7 +237,35 @@ public class ServerDriver {
         return result;
     }
     
-    public String send(String sendTo, String hashtag, String message) {
-        return ""; 
+    public String send(String sender, String hashtag, String message, LocalDate timestamp) {
+        //check for registered user
+        if(map.verifyUser(sender) == true) {
+           //User u = map.getUser(sender); 
+           String result = list.send(sender, hashtag, message, timestamp); 
+           return result; 
+           }
+       
+        else {
+            return "Something went wrong in the send function"; 
+        }  
     }
+    
+    public MessageList2 retrieve(String keyword, String name, LocalDate timestamp) {
+        //check for registered user
+        if(map.verifyUser(name) == true);
+        FollowList followingList = map.display(name, "peopleIAmFollowing");
+            //TEST: FollowList returning appropriately
+            System.out.println("FollowList returned in retrive method: " + followingList); 
+        MessageList2 mL = list.retrieve(keyword, followingList, timestamp);
+        return mL;         
+    }
+    
+    public MessageList2 search(String keyword, String name, LocalDate timestamp) {
+        //check for registered user
+        if(map.verifyUser(name) == true); 
+            MessageList2 mL = list.search(keyword, timestamp);
+            return mL;
+        
+    }
+    
 }

@@ -5,6 +5,7 @@
  */
 package servermessagingsystemrobbins;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 
 /**
@@ -34,13 +35,14 @@ public class UserMap {
         return result; 
     }
     
-    public String logOn(String name, String pass) {
+    public String logOn(String name, String pass, InetAddress address) {
         String result;
         if(theUsers.containsKey(name)) {
              User u = theUsers.get(name); 
                 if(u.getPass().equals(pass) && u.checkStatus() == false) {
                     result = "valid log on"; 
-                    u.setStatus(true);                 
+                    u.setStatus(true);
+                    u.setAddress(address); 
                 }
                 else if(!u.getPass().equals(pass)) {
                     result = "invalid log on, passwords don't match";                  
@@ -80,21 +82,7 @@ public class UserMap {
             User beingFollowed = theUsers.get(personBeingFollowed); 
             
             result = doingFollowing.toFollow(personBeingFollowed);
-            beingFollowed.beingFollow(personDoingFollowing);
-               /* System.out.println("following " + result);
-                FollowList list = doingFollowing.display("peopleIAmFollowing");
-                    System.out.println("People I Am Following"); 
-                    for(int i = 0; i < list.size(); i++) {
-                                System.out.println(list.get(i));
-                            }             beingFollowed.beingFollow(personDoingFollowing); 
-                System.out.println(result +"'s list has been updated"); 
-                list = 
-                     beingFollowed.display("peopleFollowingMe"); 
-                   System.out.println("People Following Me: "); 
-                    for(int i = 0; i < list.size(); i++) {
-                                System.out.println(list.get(i));
-                            }       */     
-            
+            String result2 = beingFollowed.beingFollow(personDoingFollowing); 
        }
        else {
            result = "User " + personBeingFollowed + " does not exist, please verify input"; 
@@ -124,6 +112,23 @@ public class UserMap {
     public FollowList display(String name, String type) {
         User u = theUsers.get(name); 
         FollowList result = u.display(type);
+            //TEST: FollowList results
+            System.out.println("FollowList from User: " + result); 
         return result; 
+    }
+    
+    public boolean verifyUser(String name) {
+      if(theUsers.containsKey(name)) {
+         return true;  
+      }
+      else {
+          return false;
+      } 
+    }
+    
+    public User getUser(String name) {
+            User u = theUsers.get(name);
+            
+            return u; 
     }
 }

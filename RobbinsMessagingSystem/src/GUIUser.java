@@ -12,6 +12,7 @@ public class GUIUser {
     
     private String name; 
     private String pass; 
+    private String address; //FIXME: how do we get the address??
     private boolean status; 
     
     public GUIUser(String name) {
@@ -22,6 +23,10 @@ public class GUIUser {
     
     public void setName(String n) {
         name = n; 
+    }
+    
+    public String getAddress() {
+        return address; 
     }
     
     public String getName() {

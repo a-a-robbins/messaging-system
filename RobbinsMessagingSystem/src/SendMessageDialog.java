@@ -1,3 +1,10 @@
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,15 +13,16 @@
 
 /**
  *
- * @author DanAsh4Ever
+ * @author a-a-robbins
  */
 public class SendMessageDialog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form createMessageDialog
-     */
-    public SendMessageDialog(java.awt.Frame parent, boolean modal) {
+   private String sender; 
+   
+    public SendMessageDialog(java.awt.Frame parent, boolean modal, String username) {
         super(parent, modal);
+        this.sender = username; 
+
         initComponents();
     }
 
@@ -30,15 +38,14 @@ public class SendMessageDialog extends javax.swing.JDialog {
         titlePanel = new javax.swing.JPanel();
         createMessageDialogLabel = new javax.swing.JLabel();
         sendingInfoPanel = new javax.swing.JPanel();
-        toLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
-        fromTextField = new javax.swing.JTextField();
-        toTextField = new javax.swing.JTextField();
-        messageTxt = new javax.swing.JTextField();
+        hashtagField = new javax.swing.JTextField();
+        messageField = new javax.swing.JTextField();
         messageLbl = new javax.swing.JLabel();
         sendButtonPanel = new javax.swing.JPanel();
         sendButton = new javax.swing.JButton();
-        cancelBtn = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        doneButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -62,17 +69,12 @@ public class SendMessageDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        toLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        toLabel.setText("To: ");
-
         titleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         titleLabel.setText("#");
 
-        fromTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        hashtagField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        toTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        messageTxt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        messageField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         messageLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         messageLbl.setText("Message: ");
@@ -85,31 +87,25 @@ public class SendMessageDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(titleLabel)
-                    .addComponent(toLabel)
                     .addComponent(messageLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(toTextField)
-                    .addComponent(fromTextField)
-                    .addComponent(messageTxt))
+                    .addComponent(hashtagField, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                    .addComponent(messageField))
                 .addContainerGap())
         );
         sendingInfoPanelLayout.setVerticalGroup(
             sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sendingInfoPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(toLabel)
-                    .addComponent(toTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(14, 14, 14)
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titleLabel)
-                    .addComponent(fromTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hashtagField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(sendingInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(messageTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(messageLbl))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         sendButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -120,11 +116,19 @@ public class SendMessageDialog extends javax.swing.JDialog {
             }
         });
 
-        cancelBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cancelBtn.setText("Cancel");
-        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+        cancelButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelBtnActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        doneButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        doneButton.setText("Done");
+        doneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doneButtonActionPerformed(evt);
             }
         });
 
@@ -132,12 +136,14 @@ public class SendMessageDialog extends javax.swing.JDialog {
         sendButtonPanel.setLayout(sendButtonPanelLayout);
         sendButtonPanelLayout.setHorizontalGroup(
             sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sendButtonPanelLayout.createSequentialGroup()
-                .addGap(127, 127, 127)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sendButtonPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sendButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cancelBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(cancelButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(doneButton)
+                .addGap(74, 74, 74))
         );
         sendButtonPanelLayout.setVerticalGroup(
             sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,8 +151,9 @@ public class SendMessageDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendButton)
-                    .addComponent(cancelBtn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cancelButton)
+                    .addComponent(doneButton))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,27 +183,71 @@ public class SendMessageDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cancelBtnActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+            //clear text fields
+            hashtagField.setText(""); 
+            messageField.setText(""); 
+            
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        // TODO add your handling code here:
+            try { 
+            //create a host, localhost = local machine (no need for IP address)
+            String host = "localhost"; 
+
+            //connect to specified host on Server port#
+            Socket sock = new Socket(host, 2001); 
+            
+            //create IO stream from socket
+            Scanner in = new Scanner(sock.getInputStream()); 
+            
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+            
+                    
+            //create protocol
+            out.println("Send");
+            out.println(sender); 
+            out.println(hashtagField.getText()); 
+            out.println(messageField.getText());  
+            
+            //check for response from server
+            if(in.nextLine().equals("okay")) {
+               String result = in.nextLine(); //result should be some sort of success message when saves to server 
+               JOptionPane.showMessageDialog(SendMessageDialog.this, result); 
+           
+                //reset text fields after message sent
+                hashtagField.setText("");
+                messageField.setText(""); 
+            }
+            
+            else { 
+                JOptionPane.showMessageDialog(SendMessageDialog.this, "Something went wrong in the send function");
+            } 
+            
+         }
+       
+       catch (IOException e) {
+           //generate error message, perhaps write to log later
+           System.err.println("IOEXCEPTION" + e.getMessage());
+       }
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
+            this.dispose();
+    }//GEN-LAST:event_doneButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelBtn;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel createMessageDialogLabel;
-    private javax.swing.JTextField fromTextField;
+    private javax.swing.JButton doneButton;
+    private javax.swing.JTextField hashtagField;
+    private javax.swing.JTextField messageField;
     private javax.swing.JLabel messageLbl;
-    private javax.swing.JTextField messageTxt;
     private javax.swing.JButton sendButton;
     private javax.swing.JPanel sendButtonPanel;
     private javax.swing.JPanel sendingInfoPanel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titlePanel;
-    private javax.swing.JLabel toLabel;
-    private javax.swing.JTextField toTextField;
     // End of variables declaration//GEN-END:variables
 }

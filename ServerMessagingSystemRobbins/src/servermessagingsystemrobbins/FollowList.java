@@ -60,11 +60,18 @@ public class FollowList {
     }
     
     public String add(String str) {
-        list.add(str); 
-        return str + " added"; 
+        if(list.add(str)) {
+            return str + " added"; 
+        }
+        else
+            return "something went wrong adding to list"; 
     }
  
     public boolean contains(String str) {
         return list.contains(str); 
     }
+    
+   /* public ArrayList toArray() {
+        return list.toArray(); 
+    }*/
 } 
