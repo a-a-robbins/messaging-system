@@ -17,17 +17,19 @@ import java.util.Scanner;
  * @author a-a-robbins
  */
 public class NotificationThread implements Runnable {
-  
+    String address; 
+    String name; 
     
-    public NotificationThread(User personDoingFollowing) {
-       String address = personDoingFollowing.getAddress();        
+    public NotificationThread(User personBeingFollowed, String personDoingFollowing) {
+        address = personBeingFollowed.getAddress(); 
+        name = personDoingFollowing; 
     }
     
     
      public void run() {
             try {
             //create a host
-            String host = "localhost"; 
+            String host = address; 
             
             //create a socket connection
             Socket sock = new Socket(host, 2008); 
@@ -42,8 +44,7 @@ public class NotificationThread implements Runnable {
             //get confirmation back
             if(in.nextLine().equals("OKAY")) {
                 //give user following
-                
-                //give IP address of user following        
+                out.println(name); 
             }
             
             else {

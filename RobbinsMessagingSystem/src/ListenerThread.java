@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /*
@@ -18,9 +19,9 @@ import javax.swing.JOptionPane;
  * @author a-a-robbins
  */
 public class ListenerThread implements Runnable {
-
-    public ListenerThread() {
-        
+        JDialog notification; 
+    public ListenerThread(JDialog dialog) {
+       notification = dialog; 
     }
 
     public void run() {
@@ -52,9 +53,20 @@ public class ListenerThread implements Runnable {
                     case "FOLLOW" :
                        if(in.nextLine().equals("OKAY")) {
                         String follower = in.nextLine(); 
-                        //JOptionPane.showMessageDialog(ListenerThread.this, follower + " has followed you" );
+                        JOptionPane.showMessageDialog(notification, follower + " has followed you" );
+      
+//                        NotificationDialog dialog = new NotificationDialog(new javax.swing.JFrame(), true);
+//                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                            @Override
+//                            public void windowClosing(java.awt.event.WindowEvent e) {
+//                                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
+//                            }
+//                        });
+//                        dialog.setVisible(true);
+
+        
                         System.out.println(follower + " has followed you"); 
-                    }
+                       }
                         break; 
                 
                  } 

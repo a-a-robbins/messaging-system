@@ -40,7 +40,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
             dialog.setVisible(true);
             
          //start thread
-         ListenerThread lt = new ListenerThread(); 
+         ListenerThread lt = new ListenerThread(dialog); 
          Thread t = new Thread(lt); 
          t.start(); 
             
