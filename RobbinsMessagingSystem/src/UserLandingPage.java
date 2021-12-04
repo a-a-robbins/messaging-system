@@ -18,13 +18,15 @@ import javax.swing.JOptionPane;
  */
 public class UserLandingPage extends javax.swing.JDialog {
     private static final String LOGON = "LogOn"; 
+    private String address; 
 
     /**
      * Creates new form UserLandingPage
      */
-    public UserLandingPage(java.awt.Frame parent, boolean modal) {
+    public UserLandingPage(java.awt.Frame parent, boolean modal, String address) {
         super(parent, modal);
         initComponents();
+        this.address = address; 
     }
     
     public String getUsername() {
@@ -281,7 +283,7 @@ public class UserLandingPage extends javax.swing.JDialog {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         //create new registration dialog
-        RegistrationDialog dialog = new RegistrationDialog(new javax.swing.JFrame(), true);
+        RegistrationDialog dialog = new RegistrationDialog(new javax.swing.JFrame(), true, address);
         
         //in case window is exited instead of going through registration process
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -302,7 +304,7 @@ public class UserLandingPage extends javax.swing.JDialog {
        
        try { 
             //create a host, localhost = local machine (no need for IP address)
-            String host = "localhost"; 
+            String host = address; 
 
             //connect to specified host on Server port#
             Socket sock = new Socket(host, 2001); 
@@ -343,7 +345,7 @@ public class UserLandingPage extends javax.swing.JDialog {
         if(evt.equals("Enter")) {
             try { 
             //create a host, localhost = local machine (no need for IP address)
-            String host = "localhost"; 
+            String host = address; 
 
             //connect to specified host on Server port#
             Socket sock = new Socket(host, 2001); 

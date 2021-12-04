@@ -14,10 +14,14 @@ import javax.swing.*;
  *
  * @author a-a-robbins
  */
+
+//FIXME (12/3/2021): Nothing coming up when hit GO, also DONE has no functionality
 public class SearchMessagesDialog extends JDialog {
+    private String address;
     
     //constructor
-    public SearchMessagesDialog() {
+    public SearchMessagesDialog(String address) {
+        this.address = address;
         //set window title
         setTitle("Search Messages");
                 
@@ -80,7 +84,7 @@ public class SearchMessagesDialog extends JDialog {
                 String[] array; 
 
                 //create a host
-                String host = "localhost"; 
+                String host = address; 
 
                 //create a socket connection
                 Socket sock = new Socket(host, 2001); 

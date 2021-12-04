@@ -18,10 +18,12 @@ import javax.swing.JOptionPane;
 public class SendMessageDialog extends javax.swing.JDialog {
 
    private String sender; 
+   private String address; 
    
-    public SendMessageDialog(java.awt.Frame parent, boolean modal, String username) {
+    public SendMessageDialog(java.awt.Frame parent, boolean modal, String username, String address) {
         super(parent, modal);
         this.sender = username; 
+        this.address = address; 
 
         initComponents();
     }
@@ -193,7 +195,7 @@ public class SendMessageDialog extends javax.swing.JDialog {
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
             try { 
             //create a host, localhost = local machine (no need for IP address)
-            String host = "localhost"; 
+            String host = address; 
 
             //connect to specified host on Server port#
             Socket sock = new Socket(host, 2001); 

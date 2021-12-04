@@ -27,6 +27,7 @@ public class FollowingListDialog extends javax.swing.JDialog {
 
         //create a user to store info that gets passed 
          private GUIUser user = new GUIUser(""); // ?? how can I get around needing to do this ??
+         private String address; 
 
 
 
@@ -34,7 +35,7 @@ public class FollowingListDialog extends javax.swing.JDialog {
     /**
      * Creates new form FollowingListDialog
      */
-    public FollowingListDialog(java.awt.Frame parent, boolean modal, GUIUser gu) {
+    public FollowingListDialog(java.awt.Frame parent, boolean modal, GUIUser gu, String address) {
         super(parent, modal);
         
          lm = new DefaultListModel(); 
@@ -46,7 +47,8 @@ public class FollowingListDialog extends javax.swing.JDialog {
         
         
         //pass user into an accessible variable
-        this.user = gu; 
+        this.user = gu;
+        this.address = address; 
     }
 
     /**
@@ -229,7 +231,7 @@ public class FollowingListDialog extends javax.swing.JDialog {
     private void followBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_followBtnActionPerformed
         try {
             //create a host
-            String host = "localhost"; 
+            String host = address; 
             
             //create a socket connection
             Socket sock = new Socket(host, 2001); 
@@ -274,7 +276,7 @@ public class FollowingListDialog extends javax.swing.JDialog {
     private void unfollowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfollowBtnActionPerformed
          try {
             //create a host
-            String host = "localhost"; 
+            String host = address; 
             
             //create a socket connection
             Socket sock = new Socket(host, 2001); 
@@ -326,7 +328,7 @@ try {
             String[] array; 
                        
             //create a host
-            String host = "localhost"; 
+            String host = address; 
             
             //create a socket connection
             Socket sock = new Socket(host, 2001); 
@@ -383,7 +385,7 @@ try {
             String[] array; 
                        
             //create a host
-            String host = "localhost"; 
+            String host = address; 
             
             //create a socket connection
             Socket sock = new Socket(host, 2001); 

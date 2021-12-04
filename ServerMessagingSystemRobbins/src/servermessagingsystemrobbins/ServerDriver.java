@@ -127,8 +127,8 @@ public class ServerDriver {
                         result = server.follow(personDoingFollowing, personBeingFollowed); 
                         out.println(result);
                         //need to think about a parameter to notify the user being followed, names and addresses
-                        User u = server.getUser(personDoingFollowing); 
-                        NotificationThread nt = new NotificationThread(u); 
+                        User u = server.getUser(personBeingFollowed); 
+                        NotificationThread nt = new NotificationThread(u, personDoingFollowing); 
                         Thread t = new Thread(nt); 
                         t.start(); 
                         break; 

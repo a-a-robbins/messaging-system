@@ -16,15 +16,17 @@ import javax.swing.JOptionPane;
  * @author a-a-robbins
  */
 public class RegistrationDialog extends javax.swing.JDialog {
-        private static final String REGISTER = "Register"; 
+        private static final String REGISTER = "Register";
+        private String address; 
 
 
     /**
      * Creates new form RegistrationDialog
      */
-    public RegistrationDialog(java.awt.Frame parent, boolean modal) {
+    public RegistrationDialog(java.awt.Frame parent, boolean modal, String address) {
         super(parent, modal);
         initComponents();
+        this.address = address; 
     }
     
     public String getName() {
@@ -229,7 +231,7 @@ public class RegistrationDialog extends javax.swing.JDialog {
         try {
             
             //create a host
-            String host = "localhost"; 
+            String host = address; 
             
             //create a socket connection
             Socket sock = new Socket(host, 2001); 

@@ -16,10 +16,12 @@ import java.sql.Timestamp;
  */
 public class ViewMessagesDialog extends JDialog {
     private String user; 
+    private String address; 
     
     //constructor
-    public ViewMessagesDialog(String username) { 
+    public ViewMessagesDialog(String username, String address) { 
         user = username; 
+        this.address = address; 
         
       //set window title
       setTitle("View Messages"); 
@@ -76,7 +78,7 @@ public class ViewMessagesDialog extends JDialog {
                 String[] array; 
 
                 //create a host
-                String host = "localhost"; 
+                String host = address; 
 
                 //create a socket connection
                 Socket sock = new Socket(host, 2001); 
@@ -133,7 +135,7 @@ public class ViewMessagesDialog extends JDialog {
                 String[] array; 
 
                 //create a host
-                String host = "localhost"; 
+                String host = address; 
 
                 //create a socket connection
                 Socket sock = new Socket(host, 2001); 

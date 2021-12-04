@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 public class UserHomepageFrame extends javax.swing.JFrame {
         private static final String LOGOFF = "LogOff"; 
         GUIUser gu = new GUIUser(""); 
-
+        private String address = "localhost"; 
     /**
      * Creates new form UserHomepageFrame
      */
@@ -28,7 +28,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         initComponents();
         
         //create new landing page dialog (log in/register)
-        UserLandingPage dialog = new UserLandingPage(new javax.swing.JFrame(), true);
+        UserLandingPage dialog = new UserLandingPage(new javax.swing.JFrame(), true, address);
            
             //in case dialog is exited without completing log in process
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -259,7 +259,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewMessagesButtonActionPerformed
-        JDialog dialog = new ViewMessagesDialog(gu.getName()); 
+        JDialog dialog = new ViewMessagesDialog(gu.getName(), address); 
         dialog.setSize(600, 400); 
         dialog.setVisible(true); 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -271,7 +271,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         String username = gu.getName();     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true, username);
+                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true, username, address);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -285,7 +285,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
 
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOffButtonActionPerformed
         try {
-            String host = "localhost"; 
+            String host = address; 
             Socket sock = new Socket(host, 2001); 
             Scanner in = new Scanner(sock.getInputStream()); 
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
@@ -305,7 +305,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logOffButtonActionPerformed
 
     private void friendsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendsButtonActionPerformed
-       FollowingListDialog dialog = new FollowingListDialog(new javax.swing.JFrame(), true, gu);
+       FollowingListDialog dialog = new FollowingListDialog(new javax.swing.JFrame(), true, gu, address);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -318,7 +318,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
 
     private void searchMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMessagesButtonActionPerformed
  /* Create and display the dialog */
-        JDialog dialog = new SearchMessagesDialog(); 
+        JDialog dialog = new SearchMessagesDialog(address); 
         dialog.setSize(600, 400); 
         dialog.setVisible(true); 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);    }//GEN-LAST:event_searchMessagesButtonActionPerformed
