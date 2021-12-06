@@ -104,6 +104,7 @@ public class ServerDriver {
                         pass = in.nextLine();
                         InetAddress address = client.getInetAddress(); 
                         result = server.logOn(name, pass, address);
+                        //TEST: what is the user's address
                         System.out.println(result);
                         out.println(result);
                         break; 
@@ -190,7 +191,9 @@ public class ServerDriver {
                          break;
                          
                      case "Get" :
-                         u = server.getUser(in.nextLine()); 
+                         u = server.getUser(in.nextLine());
+                         //TEST: what user did we get
+                         System.out.println("User to get info for: " + u); 
                          out.println("okay"); 
                          String ip = u.getAddress(); 
                          out.println(ip); 
@@ -206,7 +209,7 @@ public class ServerDriver {
         
         catch (IOException e) {
             //throw error message, perhaps write to a log later
-            System.err.println(e.getMessage()); 
+            System.err.println("IOException in ServerDriver: " + e.getMessage()); 
 
         }   
         

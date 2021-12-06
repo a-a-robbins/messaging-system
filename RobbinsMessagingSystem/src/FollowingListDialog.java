@@ -269,7 +269,7 @@ public class FollowingListDialog extends javax.swing.JDialog {
         
         catch (IOException e) {            
             //print error
-            System.err.println("IOEXCEPTION" + e.getMessage());
+            System.err.println("IOEXCEPTION in followBtnAction: " + e.getMessage());
         }
     }//GEN-LAST:event_followBtnActionPerformed
 
@@ -373,7 +373,7 @@ try {
         catch (IOException e) {
             
             //print error
-            System.err.println("IOEXCEPTION" + e.getMessage());
+            System.err.println(" in peopleImFollowingAction: " + e.getMessage());
         }    }//GEN-LAST:event_peopleImFollowingBtnActionPerformed
 
     private void peopleFollowingMeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peopleFollowingMeBtnActionPerformed
@@ -423,7 +423,7 @@ try {
          catch (IOException e) {
             
             //print error
-            System.err.println("IOEXCEPTION" + e.getMessage());
+            System.err.println("IOEXCEPTION in peopleFollowingMeAction: " + e.getMessage());
         }                
     }//GEN-LAST:event_peopleFollowingMeBtnActionPerformed
 

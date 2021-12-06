@@ -78,8 +78,11 @@ public class ListenerThread implements Runnable {
                     case "PRIVATE": 
                         String hashtag = in.nextLine(); 
                         String message = in.nextLine(); 
+                                            
+                        //JOptionPane.showMessageDialog(notification, "You have a new private message: \n  hashtag: " + hashtag + ",   message: " + message);
                         
-                        JOptionPane.showMessageDialog(notification, "You have a new private message: \n  hashtag: " + hashtag + ",   message: " + message);
+                        //TEST: did it work
+                        System.out.println("You have a new private message: \n  hashtag: " + hashtag +  ", message: " + message); 
                         break; 
                 
                  } 
@@ -88,7 +91,7 @@ public class ListenerThread implements Runnable {
             }
             }
          catch (IOException e) {
-                System.err.print("IOException: " + e.getMessage());
+                System.err.print("IOException in ListenerThread: " + e.getMessage());
             }
 
     }

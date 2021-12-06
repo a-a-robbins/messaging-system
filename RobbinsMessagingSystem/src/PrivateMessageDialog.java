@@ -176,30 +176,43 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
             //create a host, localhost = local machine (no need for IP address)
             //talk to server to check if user is online and get their IP address
             String host = serverAddress;
+            //TEST: what is the address we are trying to get information from
+            System.out.println("Server Address to get our recievee info: " + serverAddress);
 
             //connect to specified host on Server port#
             Socket sock = new Socket(host, 2001);
 
             //create IO stream from socket
             Scanner in = new Scanner(sock.getInputStream());
-
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
 
             //create protocol
             out.println("Get");
             out.println(toLabel.getText());
             
+            String conf = in.nextLine(); 
+            //TEST: what was our conf
+            System.out.println("Conf = " + conf); 
+            
             //check for response from server
-            if(in.nextLine().equals("okay")) {
+            if(conf.equals("okay")) {
                 String userAddress = in.nextLine(); //result should be some sort of success message when saves to server
+                //TEST: what address did we get from the server
+                System.out.println("Recievee's address from server: " + userAddress); 
                 
                 Socket threadSocket = new Socket(userAddress, 2008); 
+                //TEST: did our socket actually create
+                System.out.println("threadSocket connected to: " + threadSocket.getInetAddress());
+                System.out.println("threadSocket bound to: " + threadSocket.getLocalAddress()); 
                 
                 Scanner threadIn = new Scanner(threadSocket.getInputStream()); 
                 PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream()); 
                 
                 out.println("PRIVATE"); 
-                    if (in.nextLine().equals("OKAY")) {
+                conf = in.nextLine(); 
+                //TEST: what was our conf
+                System.out.println("Conf = " + conf);
+                    if (conf.equals("OKAY")) {
                         out.println(hashtagField.getText());
                         out.println(messageField.getText()); 
                     }
@@ -219,7 +232,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
 
         catch (IOException e) {
             //generate error message, perhaps write to log later
-            System.err.println("IOEXCEPTION" + e.getMessage());
+            System.err.println("IOEXCEPTION in sendButton1Action: " + e.getMessage());
         }
     }//GEN-LAST:event_sendButton1ActionPerformed
 

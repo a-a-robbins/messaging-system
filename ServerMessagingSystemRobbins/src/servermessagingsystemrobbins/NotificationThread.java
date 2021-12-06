@@ -36,6 +36,9 @@ public class NotificationThread implements Runnable {
             
             //create a socket connection
             Socket sock = new Socket(host, 2008); 
+            //TEST: did the socket actually connect
+            System.out.println("Notification socket connected to: " + sock.getInetAddress()); 
+            System.out.println("Notification socket bound to: " + sock.getLocalAddress()); 
             
             //create the IO stream
             Scanner in = new Scanner(sock.getInputStream()); 
@@ -63,7 +66,7 @@ public class NotificationThread implements Runnable {
         
         catch (IOException e) {            
             //print error
-            System.err.println("IOEXCEPTION" + e.getMessage());
+            System.err.println("IOEXCEPTION in NotificationThread: " + e.getMessage());
         }
     }                     
 

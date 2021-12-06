@@ -260,7 +260,7 @@ public class RegistrationDialog extends javax.swing.JDialog {
         catch (IOException e) {
             
             //print error
-            System.err.println("IOEXCEPTION" + e.getMessage());
+            System.err.println("IOEXCEPTION in Registration: " + e.getMessage());
         }
     }//GEN-LAST:event_registerButtonActionPerformed
 

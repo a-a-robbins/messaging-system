@@ -316,9 +316,8 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         }
         
         catch(IOException e) {
-            System.err.println("IOException");
-            System.err.println(e.getMessage());
-        }
+            System.err.println("IOException: in logOffButtonAction: " + e.getMessage());
+         }
         
         System.exit(0); 
     }//GEN-LAST:event_logOffButtonActionPerformed

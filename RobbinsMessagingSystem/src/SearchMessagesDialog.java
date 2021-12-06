@@ -125,7 +125,7 @@ public class SearchMessagesDialog extends JDialog {
          catch (IOException x) {
             
             //print error
-            System.err.println("IOEXCEPTION" + x.getMessage());
+            System.err.println("IOEXCEPTION in searchListener" + x.getMessage());
         } 
         }
     }

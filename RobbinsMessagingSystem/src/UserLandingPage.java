@@ -332,7 +332,7 @@ public class UserLandingPage extends javax.swing.JDialog {
        
        catch (IOException e) {
            //generate error message, perhaps write to log later
-           System.err.println("IOEXCEPTION" + e.getMessage());
+           System.err.println("IOEXCEPTION in logInButtonAction: " + e.getMessage());
        }
         
     }//GEN-LAST:event_logInButtonActionPerformed
@@ -373,7 +373,7 @@ public class UserLandingPage extends javax.swing.JDialog {
        
        catch (IOException e) {
            //generate error message, perhaps write to log later
-           System.err.println("IOEXCEPTION" + e.getMessage());
+           System.err.println("IOEXCEPTION in passwordKeyFieldPressed: " + e.getMessage());
        }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed

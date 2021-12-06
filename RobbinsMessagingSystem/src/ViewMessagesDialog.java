@@ -118,7 +118,7 @@ public class ViewMessagesDialog extends JDialog {
          catch (IOException x) {
             
             //print error
-            System.err.println("IOEXCEPTION" + x.getMessage());
+            System.err.println("IOEXCEPTION in unreadListener: " + x.getMessage());
         } 
       }
     }
@@ -175,7 +175,7 @@ public class ViewMessagesDialog extends JDialog {
          catch (IOException x) {
             
             //print error
-            System.err.println("IOEXCEPTION" + x.getMessage());
+            System.err.println("IOEXCEPTION in RefreshListener: " + x.getMessage());
         } 
       }
     }

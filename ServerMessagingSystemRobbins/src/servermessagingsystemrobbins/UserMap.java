@@ -113,7 +113,7 @@ public class UserMap {
         User u = theUsers.get(name); 
         FollowList result = u.display(type);
             //TEST: FollowList results
-            System.out.println("FollowList from User: " + result); 
+            System.out.println("FollowList from User " + u.getName() + ": " + result); 
         return result; 
     }
     

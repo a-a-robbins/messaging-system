@@ -230,7 +230,7 @@ public class SendMessageDialog extends javax.swing.JDialog {
        
        catch (IOException e) {
            //generate error message, perhaps write to log later
-           System.err.println("IOEXCEPTION" + e.getMessage());
+           System.err.println("IOEXCEPTION in sendMessageAction: " + e.getMessage());
        }
     }//GEN-LAST:event_sendButtonActionPerformed
 
