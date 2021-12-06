@@ -246,9 +246,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_sendButton1ActionPerformed
 
     private void cancelButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButton1ActionPerformed
-        //clear text fields
-        hashtagField.setText("");
-        messageField.setText("");
+        this.dispose(); 
 
     }//GEN-LAST:event_cancelButton1ActionPerformed
 
