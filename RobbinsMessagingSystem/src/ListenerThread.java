@@ -26,8 +26,7 @@ public class ListenerThread implements Runnable {
     }
 
     public void run() {
-            try {
-                //should this be a ServerSocket??
+            try {           
                 ServerSocket listen = new ServerSocket(2008);
                 
                 //display the port# we are listening on
@@ -40,10 +39,15 @@ public class ListenerThread implements Runnable {
                 
                 //wait for a client to connect
                 Socket client = listen.accept(); 
+                //TEST: did client create
+                System.out.println("Client waiting and heard: " + client); 
                 
                 //get IO stream
                 PrintWriter out = new PrintWriter(client.getOutputStream(), true); 
                 Scanner in = new Scanner(client.getInputStream()); 
+                //TEST: did printwriter and scanner create
+                System.out.println("Printwriter address: " + out); 
+                System.out.println("Scanner address: " + in); 
                 
                 //create a protocol
                 String protocol = in.nextLine(); 
