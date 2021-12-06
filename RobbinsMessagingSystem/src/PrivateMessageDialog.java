@@ -188,7 +188,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
 
             //create protocol
             out.println("Get");
-            out.println(toLabel.getText());
+            out.println(toField.getText());
             
             String conf = in.nextLine(); 
             //TEST: what was our conf
@@ -200,6 +200,8 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
                 //TEST: what address did we get from the server
                 System.out.println("Recievee's address from server: " + userAddress); 
                 
+                sock.close(); 
+                
                 Socket threadSocket = new Socket(userAddress, 2008); 
                 //TEST: did our socket actually create
                 System.out.println("threadSocket connected to: " + threadSocket.getInetAddress());
@@ -207,14 +209,21 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
                 
                 Scanner threadIn = new Scanner(threadSocket.getInputStream()); 
                 PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream()); 
+                //TEST: did our scanner/printwriter create
+                System.out.println("Scanner address: " + threadIn); 
+                System.out.println("Printwriter address: " + threadOut); 
                 
-                out.println("PRIVATE"); 
-                conf = in.nextLine(); 
+                String protocol = "PRIVATE"; 
+                threadOut.println(protocol);
+                //TEST: did our protocol send
+                System.out.println(protocol); 
+                conf = threadIn.nextLine(); 
                 //TEST: what was our conf
                 System.out.println("Conf = " + conf);
+                
                     if (conf.equals("OKAY")) {
-                        out.println(hashtagField.getText());
-                        out.println(messageField.getText()); 
+                        threadOut.println(hashtagField.getText());
+                        threadOut.println(messageField.getText()); 
                     }
 
                 
