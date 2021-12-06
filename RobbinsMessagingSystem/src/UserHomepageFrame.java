@@ -66,12 +66,14 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         CreateMessageLabel = new javax.swing.JLabel();
         searchMessagesLabel = new javax.swing.JLabel();
         friendsLabel = new javax.swing.JLabel();
+        privateMessageLabel = new javax.swing.JLabel();
         helloUserLabel2 = new javax.swing.JLabel();
         homepageButtonPanel = new javax.swing.JPanel();
         viewMessagesButton = new javax.swing.JButton();
         createMessageButton = new javax.swing.JButton();
         searchMessagesButton = new javax.swing.JButton();
         friendsButton = new javax.swing.JButton();
+        sendMessageButton = new javax.swing.JButton();
         logOffButtonPanel = new javax.swing.JPanel();
         logOffButton = new javax.swing.JButton();
         helloUserLabel1 = new javax.swing.JLabel();
@@ -91,6 +93,9 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         friendsLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         friendsLabel.setText("See & Find Friends");
 
+        privateMessageLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        privateMessageLabel.setText("Send Private Message");
+
         javax.swing.GroupLayout landingPanelLayout = new javax.swing.GroupLayout(landingPanel);
         landingPanel.setLayout(landingPanelLayout);
         landingPanelLayout.setHorizontalGroup(
@@ -101,7 +106,8 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                     .addComponent(viewMessagesLabel)
                     .addComponent(CreateMessageLabel)
                     .addComponent(searchMessagesLabel)
-                    .addComponent(friendsLabel))
+                    .addComponent(friendsLabel)
+                    .addComponent(privateMessageLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         landingPanelLayout.setVerticalGroup(
@@ -113,9 +119,11 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 .addComponent(CreateMessageLabel)
                 .addGap(18, 18, 18)
                 .addComponent(searchMessagesLabel)
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addComponent(friendsLabel)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(privateMessageLabel)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         helloUserLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -154,6 +162,14 @@ public class UserHomepageFrame extends javax.swing.JFrame {
             }
         });
 
+        sendMessageButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sendMessageButton.setText("Go");
+        sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendMessageButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout homepageButtonPanelLayout = new javax.swing.GroupLayout(homepageButtonPanel);
         homepageButtonPanel.setLayout(homepageButtonPanelLayout);
         homepageButtonPanelLayout.setHorizontalGroup(
@@ -163,8 +179,9 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                     .addComponent(viewMessagesButton)
                     .addComponent(createMessageButton)
                     .addComponent(searchMessagesButton)
-                    .addComponent(friendsButton))
-                .addGap(0, 10, Short.MAX_VALUE))
+                    .addComponent(friendsButton)
+                    .addComponent(sendMessageButton))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         homepageButtonPanelLayout.setVerticalGroup(
             homepageButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,6 +194,8 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 .addComponent(searchMessagesButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(friendsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sendMessageButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -245,12 +264,12 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                     .addComponent(helloUserLabel1)
                     .addComponent(usernameLbl))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(landingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(homepageButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(homepageButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(logOffButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -323,6 +342,22 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         dialog.setVisible(true); 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);    }//GEN-LAST:event_searchMessagesButtonActionPerformed
 
+    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                PrivateMessageDialog dialog = new PrivateMessageDialog(new javax.swing.JFrame(), true, address);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_sendMessageButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -339,8 +374,10 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     private javax.swing.JPanel landingPanel;
     private javax.swing.JButton logOffButton;
     private javax.swing.JPanel logOffButtonPanel;
+    private javax.swing.JLabel privateMessageLabel;
     private javax.swing.JButton searchMessagesButton;
     private javax.swing.JLabel searchMessagesLabel;
+    private javax.swing.JButton sendMessageButton;
     private javax.swing.JLabel usernameLbl;
     private javax.swing.JButton viewMessagesButton;
     private javax.swing.JLabel viewMessagesLabel;

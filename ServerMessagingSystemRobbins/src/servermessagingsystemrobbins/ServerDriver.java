@@ -20,6 +20,10 @@ import java.util.Scanner;
  *
  * @author a-a-robbins
  */
+
+//FIXME: consistently use "okay" in server protocol (put right after getting protocol)
+//update the methods with appropriate if/else check
+
 public class ServerDriver {
 
  private UserMap map; 
@@ -184,6 +188,13 @@ public class ServerDriver {
                                 out.println(m.get(i)); 
                             }
                          break;
+                         
+                     case "Get" :
+                         u = server.getUser(in.nextLine()); 
+                         out.println("okay"); 
+                         String ip = u.getAddress(); 
+                         out.println(ip); 
+                         break; 
                     
                     default: 
                         out.println("Whoops, something went wrong because you're getting the default message"); 

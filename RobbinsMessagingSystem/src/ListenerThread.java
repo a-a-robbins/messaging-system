@@ -51,7 +51,7 @@ public class ListenerThread implements Runnable {
                 //start switch statements and use CONSTANTS declared for the string
                 switch(protocol) {
                     case "FOLLOW" :
-                       if(in.nextLine().equals("OKAY")) {
+                       
                         String follower = in.nextLine(); 
                         JOptionPane.showMessageDialog(notification, follower + " has followed you" );
       
@@ -66,7 +66,14 @@ public class ListenerThread implements Runnable {
 
         
                         System.out.println(follower + " has followed you"); 
-                       }
+                       
+                        break;
+                    
+                    case "PRIVATE": 
+                        String hashtag = in.nextLine(); 
+                        String message = in.nextLine(); 
+                        
+                        JOptionPane.showMessageDialog(notification, "You have a new private message: \n  hashtag: " + hashtag + ",   message: " + message);
                         break; 
                 
                  } 
