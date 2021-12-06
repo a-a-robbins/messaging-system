@@ -22,6 +22,7 @@ public class ListenerThread implements Runnable {
         JDialog notification; 
     public ListenerThread(JDialog dialog) {
        notification = dialog; 
+       notification.setVisible(true); 
     }
 
     public void run() {
@@ -46,6 +47,8 @@ public class ListenerThread implements Runnable {
                 
                 //create a protocol
                 String protocol = in.nextLine(); 
+                //TEST: what protocol did we recieve
+                System.out.println("PROTOCOL: " + protocol); 
                 out.println("OKAY"); 
                 
                 //start switch statements and use CONSTANTS declared for the string
@@ -53,7 +56,10 @@ public class ListenerThread implements Runnable {
                     case "FOLLOW" :
                        
                         String follower = in.nextLine(); 
-                        JOptionPane.showMessageDialog(notification, follower + " has followed you" );
+                        //TEST: who did we get as the follower
+                        System.out.println("Follower is: " + follower); 
+                        
+                        //JOptionPane.showMessageDialog(notification, follower + " has followed you" );
       
 //                        NotificationDialog dialog = new NotificationDialog(new javax.swing.JFrame(), true);
 //                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -64,7 +70,7 @@ public class ListenerThread implements Runnable {
 //                        });
 //                        dialog.setVisible(true);
 
-        
+                        //TEST: without using dialog are we rec'ing the input
                         System.out.println(follower + " has followed you"); 
                        
                         break;

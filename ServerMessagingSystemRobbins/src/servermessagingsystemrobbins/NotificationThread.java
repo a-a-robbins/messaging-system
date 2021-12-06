@@ -29,7 +29,10 @@ public class NotificationThread implements Runnable {
      public void run() {
             try {
             //create a host
-            String host = address; 
+            String host = address;
+            
+            //TEST: what is our host's address
+            System.out.println("Host address: " + address); 
             
             //create a socket connection
             Socket sock = new Socket(host, 2008); 
@@ -40,11 +43,17 @@ public class NotificationThread implements Runnable {
             
             //do stuff as a protocol
             out.println("FOLLOW"); 
-                        
+            
             //get confirmation back
-            if(in.nextLine().equals("OKAY")) {
+            String conf = in.nextLine(); 
+            
+            //TEST: was conf "OKAY"
+            System.out.println("Conf = " + conf); 
+            
+            if(conf.equals("OKAY")) {
                 //give user following
                 out.println(name); 
+    
             }
             
             else {
