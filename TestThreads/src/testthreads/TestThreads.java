@@ -29,18 +29,31 @@ public class TestThreads {
                 System.out.println("threadSocket bound to: " + threadSocket.getLocalAddress()); 
                 
                 Scanner threadIn = new Scanner(threadSocket.getInputStream()); 
-                PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream()); 
+                PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
                 //TEST: did our scanner/printwriter create
                 System.out.println("Scanner address: " + threadIn); 
                 System.out.println("Printwriter address: " + threadOut); 
                 
+                                
+                //TEST: what was our test
+                String test = threadIn.nextLine();
+                System.out.println("Test = " + test);
+                //TEST: using other protocols
+                //String protocol = "FOLLOW"; 
+                //String protocol = "TEST";
                 String protocol = "PRIVATE"; 
                 threadOut.println(protocol);
+//                TEST: trying something random I found on the web
+//                threadOut.println(protocol);
+//                threadOut.println(protocol); 
+
                 //TEST: did our protocol send
                 System.out.println("threadOut sent: " + protocol); 
+                
+                //TEST: did we get our conf back                
                 String conf = threadIn.nextLine(); 
-                //TEST: what was our conf
-                System.out.println("Conf = " + conf);
+                System.out.println("Conf = " + conf); 
+                
                 
                     if (conf.equals("OKAY")) {
                         threadOut.println("test");

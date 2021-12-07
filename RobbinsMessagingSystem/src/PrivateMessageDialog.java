@@ -194,13 +194,15 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
             //TEST: what was our conf
             System.out.println("Conf = " + conf); 
             
+            sock.close();
+            
             //check for response from server
             if(conf.equals("okay")) {
                 String userAddress = in.nextLine(); 
                 //TEST: what address did we get from the server
                 System.out.println("Recievee's address from server: " + userAddress); 
                 
-                sock.close(); 
+                 
                 
                 Socket threadSocket = new Socket(userAddress, 2008); 
                 //TEST: did our socket actually create
@@ -208,7 +210,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
                 System.out.println("threadSocket bound to: " + threadSocket.getLocalAddress()); 
                 
                 Scanner threadIn = new Scanner(threadSocket.getInputStream()); 
-                PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream()); 
+                PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
                 //TEST: did our scanner/printwriter create
                 System.out.println("Scanner address: " + threadIn); 
                 System.out.println("Printwriter address: " + threadOut); 
