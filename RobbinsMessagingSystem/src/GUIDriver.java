@@ -13,7 +13,8 @@ import javax.swing.JDialog;
  */
 public class GUIDriver {
      public static void main(String[] args) {
-       //might want to add a class to the GUI for the person
+      //TEST: see if adding stuff will change build version
+      System.out.println("Test in main at ServerDriver --- Delete me!");
        
        //create a new homepage frame (which everything else will be generated from)
         UserHomepageFrame homePage = new UserHomepageFrame();

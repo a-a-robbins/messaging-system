@@ -39,7 +39,8 @@ public class ServerDriver {
     public static void main(String[] args) {
         
       ServerDriver server = new ServerDriver();
-      
+      //TEST: see if adding stuff will change build version
+      System.out.println("Test in main at ServerDriver --- Delete me!");
       
       //TEST: register and log in test users
       String name = "Miles";
