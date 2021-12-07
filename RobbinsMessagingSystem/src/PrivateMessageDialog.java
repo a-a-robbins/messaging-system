@@ -193,8 +193,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
             String conf = in.nextLine(); 
             //TEST: what was our conf
             System.out.println("Conf = " + conf); 
-            
-            sock.close();
+     
             
             //check for response from server
             if(conf.equals("okay")) {

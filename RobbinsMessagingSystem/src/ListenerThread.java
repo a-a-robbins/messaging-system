@@ -50,7 +50,7 @@ public class ListenerThread implements Runnable {
                 System.out.println("Scanner address: " + in); 
                 
                 //TEST: let's send something to the connected 
-                out.println("testing connection of listener to somewhere else"); 
+                //out.println("testing connection of listener to somewhere else"); 
                 
                 //create a protocol
                 String protocol = in.nextLine(); 
