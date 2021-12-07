@@ -194,9 +194,11 @@ public class ServerDriver {
                      case "Get" :
                          u = server.getUser(in.nextLine());
                          //TEST: what user did we get
-                         System.out.println("User to get info for: " + u); 
+                         System.out.println("User to get info for: " + u.getName()); 
                          out.println("okay"); 
-                         String ip = u.getAddress(); 
+                         String ip = u.getAddress();
+                         //TEST: address sent
+                         System.out.println("The address for user " + u.getName() + " is: " + ip); 
                          out.println(ip); 
                          break; 
                     
