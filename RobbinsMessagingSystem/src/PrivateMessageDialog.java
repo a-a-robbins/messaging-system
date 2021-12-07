@@ -196,7 +196,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
             
             //check for response from server
             if(conf.equals("okay")) {
-                String userAddress = in.nextLine(); //result should be some sort of success message when saves to server
+                String userAddress = in.nextLine(); 
                 //TEST: what address did we get from the server
                 System.out.println("Recievee's address from server: " + userAddress); 
                 

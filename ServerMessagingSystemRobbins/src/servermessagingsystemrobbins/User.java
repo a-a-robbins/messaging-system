@@ -44,6 +44,7 @@ public class User {
     
     public String setAddress(InetAddress addy) {
         address = addy.toString();
+        address = address.substring(1); 
         System.out.println(address);
         return address; 
     }
