@@ -37,7 +37,7 @@ public class TestThreads {
                 String protocol = "PRIVATE"; 
                 threadOut.println(protocol);
                 //TEST: did our protocol send
-                System.out.println(protocol); 
+                System.out.println("threadOut sent: " + protocol); 
                 String conf = threadIn.nextLine(); 
                 //TEST: what was our conf
                 System.out.println("Conf = " + conf);

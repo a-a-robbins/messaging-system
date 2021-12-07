@@ -20,9 +20,9 @@ import javax.swing.JOptionPane;
  */
 public class ListenerThread implements Runnable {
         JDialog notification; 
-    public ListenerThread(JDialog dialog) {
-       notification = dialog; 
-       notification.setVisible(true); 
+    public ListenerThread() {
+     
+      // notification.setVisible(true); 
     }
 
     public void run() {

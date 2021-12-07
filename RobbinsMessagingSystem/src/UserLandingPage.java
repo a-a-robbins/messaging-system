@@ -326,6 +326,10 @@ public class UserLandingPage extends javax.swing.JDialog {
             //close dialog but not system
             if(result.equals("valid log on")) { 
                 this.dispose(); 
+                 //start thread
+         ListenerThread lt = new ListenerThread(); 
+         Thread t = new Thread(lt); 
+         t.start();
             }      
             
        }
