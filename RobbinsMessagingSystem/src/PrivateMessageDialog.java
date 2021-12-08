@@ -226,14 +226,20 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
                         threadOut.println(hashtagField.getText());
                         threadOut.println(messageField.getText()); 
                     }
-
-                
+                                
                 //reset text fields after message sent
                 toField.setText(""); 
                 hashtagField.setText("");
                 messageField.setText("");
             }
-
+            
+            else if(conf.equals("offline")) {
+                JOptionPane.showMessageDialog(PrivateMessageDialog.this, toField.getText() + " " + conf); 
+            }
+            
+            else if(conf.equals("not a valid user")) {
+                JOptionPane.showMessageDialog(PrivateMessageDialog.this, toField.getText() + " " + conf); 
+            }
             else {
                 JOptionPane.showMessageDialog(PrivateMessageDialog.this, "Something went wrong in the send function");
             }

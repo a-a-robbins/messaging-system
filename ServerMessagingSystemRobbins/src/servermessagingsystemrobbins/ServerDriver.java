@@ -132,7 +132,6 @@ public class ServerDriver {
                         out.println("okay");                    
                         result = server.follow(personDoingFollowing, personBeingFollowed); 
                         out.println(result);
-                        //need to think about a parameter to notify the user being followed, names and addresses
                         User u = server.getUser(personBeingFollowed); 
                         NotificationThread nt = new NotificationThread(u, personDoingFollowing); 
                         Thread t = new Thread(nt); 
@@ -192,19 +191,32 @@ public class ServerDriver {
                          break;
                          
                      case "Get" :
-                         u = server.getUser(in.nextLine());
+                         name = in.nextLine(); 
+                         if(server.verifyUser(name) == true) {
+                           u = server.getUser(name);
+                          System.out.println("User to get info for: " + u.getName()); 
+                                if(u.getStatus() == true) {
+                                   out.println("okay"); 
+                                   String ip = u.getAddress();
+                                   //TEST: address sent
+                                   System.out.println("The address for user " + u.getName() + " is: " + ip); 
+                                   out.println(ip);                            
+                                }
+                                else {
+                                    out.println("offline"); 
+                                }
+                         }
+                         else {
+                            out.println("not a valid user"); 
+                         }
                          //TEST: what user did we get
-                         System.out.println("User to get info for: " + u.getName()); 
-                         out.println("okay"); 
-                         String ip = u.getAddress();
-                         //TEST: address sent
-                         System.out.println("The address for user " + u.getName() + " is: " + ip); 
-                         out.println(ip); 
+
+ 
                          break; 
                     
                     default: 
                         out.println("Whoops, something went wrong because you're getting the default message"); 
-                        out.println("Expected cases: LogOn, Register, LogOff, Follow, Unfollow, Display"); 
+                        out.println("Expected cases: LogOn, Register, LogOff, Follow, Unfollow, Display, Send, Unread, Search, or Get"); 
                         break;                        
                 }               
             }            
@@ -225,6 +237,9 @@ public class ServerDriver {
         return result;  
     }
     
+    public boolean verifyUser(String name) {
+        return map.verifyUser(name); 
+    }
     public User getUser(String name) {
         return map.getUser(name); 
     }

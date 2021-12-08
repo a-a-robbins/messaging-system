@@ -19,8 +19,10 @@ import java.util.Scanner;
 public class NotificationThread implements Runnable {
     String address; 
     String name; 
+    User personBeingFollowed; 
     
     public NotificationThread(User personBeingFollowed, String personDoingFollowing) {
+        this.personBeingFollowed = personBeingFollowed; 
         address = personBeingFollowed.getAddress(); 
         name = personDoingFollowing; 
     }
@@ -34,32 +36,42 @@ public class NotificationThread implements Runnable {
             //TEST: what is our host's address
             System.out.println("Host address: " + address); 
             
-            //create a socket connection
-            Socket sock = new Socket(host, 2008); 
-            //TEST: did the socket actually connect
-            System.out.println("Notification socket connected to: " + sock.getInetAddress()); 
-            System.out.println("Notification socket bound to: " + sock.getLocalAddress()); 
-            
-            //create the IO stream
-            Scanner in = new Scanner(sock.getInputStream()); 
-            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
-            
-            //do stuff as a protocol
-            out.println("FOLLOW"); 
-            
-            //get confirmation back
-            String conf = in.nextLine(); 
-            
-            //TEST: was conf "OKAY"
-            System.out.println("Conf = " + conf); 
-            
-            if(conf.equals("OKAY")) {
-                //give user following
-                out.println(name); 
-    
+            if(personBeingFollowed.getStatus() == true) {
+                            
+                    //create a socket connection
+                    Socket sock = new Socket(host, 2008); 
+                    //TEST: did the socket actually connect
+                    System.out.println("Notification socket connected to: " + sock.getInetAddress()); 
+                    System.out.println("Notification socket bound to: " + sock.getLocalAddress()); 
+
+                    //create the IO stream
+                    Scanner in = new Scanner(sock.getInputStream()); 
+                    PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+
+                    //do stuff as a protocol
+                    out.println("FOLLOW"); 
+
+                    //get confirmation back
+                    String conf = in.nextLine(); 
+
+                    //TEST: was conf "OKAY"
+                    System.out.println("Conf = " + conf); 
+
+                    if(conf.equals("OKAY") ) {
+                        //give user following
+                        out.println(name); 
+                    }
+                    
+                    else {
+                        //need to stop here
+                    }
+                
             }
             
+            
+
             else {
+               //need to stop thread here 
             }
   
         }
