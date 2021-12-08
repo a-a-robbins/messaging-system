@@ -21,8 +21,8 @@ import javax.swing.JOptionPane;
 public class ListenerThread implements Runnable {
         JDialog notification; 
     public ListenerThread() {
-     
-      // notification.setVisible(true); 
+        notification = new JDialog(); 
+        notification.setVisible(true); 
     }
 
     public void run() {
@@ -66,16 +66,8 @@ public class ListenerThread implements Runnable {
                         //TEST: who did we get as the follower
                         System.out.println("Follower is: " + follower); 
                         
-                        //JOptionPane.showMessageDialog(notification, follower + " has followed you" );
+                        JOptionPane.showMessageDialog(notification, follower + " has followed you" );
       
-//                        NotificationDialog dialog = new NotificationDialog(new javax.swing.JFrame(), true);
-//                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                            @Override
-//                            public void windowClosing(java.awt.event.WindowEvent e) {
-//                                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
-//                            }
-//                        });
-//                        dialog.setVisible(true);
 
                         //TEST: without using dialog are we rec'ing the input
                         System.out.println(follower + " has followed you"); 
@@ -86,7 +78,7 @@ public class ListenerThread implements Runnable {
                         String hashtag = in.nextLine(); 
                         String message = in.nextLine(); 
                                             
-                        //JOptionPane.showMessageDialog(notification, "You have a new private message: \n  hashtag: " + hashtag + ",   message: " + message);
+                        JOptionPane.showMessageDialog(notification, "You have a new private message: \n  hashtag: " + hashtag + ",   message: " + message);
                         
                         //TEST: did it work
                         System.out.println("You have a new private message: \n  hashtag: " + hashtag +  ", message: " + message); 
