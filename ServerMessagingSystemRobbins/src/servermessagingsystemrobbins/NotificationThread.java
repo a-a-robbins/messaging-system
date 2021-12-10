@@ -61,19 +61,8 @@ public class NotificationThread implements Runnable {
                         //give user following
                         out.println(name); 
                     }
-                    
-                    else {
-                        //need to stop here
-                    }
-                
-            }
-            
-            
-
-            else {
-               //need to stop thread here 
-            }
   
+            }
         }
         
         catch (IOException e) {            

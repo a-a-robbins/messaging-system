@@ -32,15 +32,22 @@ public MessageList2 retrieve(String keyword, FollowList sender, LocalDate timest
     MessageList2 mList = new MessageList2();
     
     //FIXME: Unread and Refresh should only be retrieving messages of who the user follows
-    
+    //TEST: what keyword did we get
+    System.out.println("Keyword = " + keyword); 
     switch(keyword){
         case "Unread" :
             String[] followList = new String[sender.size()]; 
             for(int i = 0; i < sender.size(); i++) {
                 followList[i] = sender.get(i); 
+                //TEST: what is our list
+                System.out.println("list[" + i + "] is: " + followList[i]); 
             }
+            //TEST: do we have a message list
+            System.out.println(list.size()); 
             for(int i = 0; i < list.size(); i++) {
                Message m = list.get(i);
+               //TEST: what is our message
+               System.out.println("Message m = " + m.getMessage());
                for(int j = 0; j < followList.length; j++) {
                    if(followList[j].equals(m.getSender())) {
                        if(m.getTimestamp().isBefore(LocalDate.now()) || (m.getTimestamp().isEqual(LocalDate.now()))) {

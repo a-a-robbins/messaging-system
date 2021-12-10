@@ -47,7 +47,6 @@ public class SendMessageDialog extends javax.swing.JDialog {
         sendButtonPanel = new javax.swing.JPanel();
         sendButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        doneButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -126,14 +125,6 @@ public class SendMessageDialog extends javax.swing.JDialog {
             }
         });
 
-        doneButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        doneButton.setText("Done");
-        doneButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                doneButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout sendButtonPanelLayout = new javax.swing.GroupLayout(sendButtonPanel);
         sendButtonPanel.setLayout(sendButtonPanelLayout);
         sendButtonPanelLayout.setHorizontalGroup(
@@ -143,9 +134,7 @@ public class SendMessageDialog extends javax.swing.JDialog {
                 .addComponent(sendButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(doneButton)
-                .addGap(74, 74, 74))
+                .addGap(115, 115, 115))
         );
         sendButtonPanelLayout.setVerticalGroup(
             sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,8 +142,7 @@ public class SendMessageDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(sendButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendButton)
-                    .addComponent(cancelButton)
-                    .addComponent(doneButton))
+                    .addComponent(cancelButton))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -186,9 +174,7 @@ public class SendMessageDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-            //clear text fields
-            hashtagField.setText(""); 
-            messageField.setText(""); 
+          this.dispose(); 
             
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -234,15 +220,10 @@ public class SendMessageDialog extends javax.swing.JDialog {
        }
     }//GEN-LAST:event_sendButtonActionPerformed
 
-    private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
-            this.dispose();
-    }//GEN-LAST:event_doneButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel createMessageDialogLabel;
-    private javax.swing.JButton doneButton;
     private javax.swing.JTextField hashtagField;
     private javax.swing.JTextField messageField;
     private javax.swing.JLabel messageLbl;

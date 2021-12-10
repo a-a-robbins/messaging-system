@@ -81,14 +81,21 @@ public class UserMap {
             User doingFollowing = theUsers.get(personDoingFollowing); 
             User beingFollowed = theUsers.get(personBeingFollowed); 
             
-            result = doingFollowing.toFollow(personBeingFollowed);
-            String result2 = beingFollowed.beingFollow(personDoingFollowing); 
+            if(!doingFollowing.getName().equals(beingFollowed.getName())){
+                result = doingFollowing.toFollow(personBeingFollowed);
+                String result2 = beingFollowed.beingFollow(personDoingFollowing);
+                return result; 
+            }
+            else{
+                return result = "Sorry, but you cannot follow yourself"; 
+            }
+            
+            
        }
        else {
-           result = "User " + personBeingFollowed + " does not exist, please verify input"; 
+           return result = "User " + personBeingFollowed + " does not exist, please verify input"; 
        }
-
-       return result; 
+      
     }
    
     

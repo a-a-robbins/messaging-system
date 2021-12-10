@@ -133,6 +133,11 @@ public class UserLandingPage extends javax.swing.JDialog {
 
         aboutButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         aboutButton.setText("ABOUT");
+        aboutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutButtonActionPerformed(evt);
+            }
+        });
         aboutButton.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 aboutButtonKeyPressed(evt);
@@ -381,6 +386,13 @@ public class UserLandingPage extends javax.swing.JDialog {
        }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
+
+    private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
+        JDialog dialog = new JDialog(); 
+        JOptionPane.showMessageDialog(dialog, "Hello, we are glad you're intersted in being part of our community! "
+                + "We are an online messaging platform where you can post publicly or send private messages,"
+                + "in addition you have the ability to follow people of interest and then can follow you as well!");
+    }//GEN-LAST:event_aboutButtonActionPerformed
 
     /**
      * @param args the command line arguments

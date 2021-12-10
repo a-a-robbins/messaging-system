@@ -146,7 +146,7 @@ public class ViewMessagesDialog extends JDialog {
 
                 //do stuff as a protocol
                 out.println("Refresh");
-                //pass username - FIXME: server side reveiving
+                //pass username - FIXME: server side receiving
                 out.println(user); 
                 
 

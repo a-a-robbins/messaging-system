@@ -53,12 +53,11 @@ public class RegistrationDialog extends javax.swing.JDialog {
         passwordLabel = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
-        emailLabel = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
         explanationPanel1 = new javax.swing.JPanel();
         invitationTextLbl = new javax.swing.JLabel();
         registerButtonPanel = new javax.swing.JPanel();
         registerButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         registrationPageLabel = new javax.swing.JLabel();
 
         menu1.setLabel("File");
@@ -94,15 +93,6 @@ public class RegistrationDialog extends javax.swing.JDialog {
             }
         });
 
-        emailLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        emailLabel.setText("email:  ");
-
-        emailField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailFieldActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout credentialsPanelLayout = new javax.swing.GroupLayout(credentialsPanel);
         credentialsPanel.setLayout(credentialsPanelLayout);
         credentialsPanelLayout.setHorizontalGroup(
@@ -111,11 +101,9 @@ public class RegistrationDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(credentialsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameLabel)
-                    .addComponent(emailLabel)
                     .addComponent(passwordLabel))
                 .addGap(18, 18, 18)
                 .addGroup(credentialsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
@@ -131,10 +119,6 @@ public class RegistrationDialog extends javax.swing.JDialog {
                 .addGroup(credentialsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(credentialsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -166,20 +150,32 @@ public class RegistrationDialog extends javax.swing.JDialog {
             }
         });
 
+        cancelButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout registerButtonPanelLayout = new javax.swing.GroupLayout(registerButtonPanel);
         registerButtonPanel.setLayout(registerButtonPanelLayout);
         registerButtonPanelLayout.setHorizontalGroup(
             registerButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(registerButtonPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerButtonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(registerButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelButton)
+                .addGap(86, 86, 86))
         );
         registerButtonPanelLayout.setVerticalGroup(
             registerButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerButtonPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(registerButton))
+                .addGap(0, 22, Short.MAX_VALUE)
+                .addGroup(registerButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(registerButton)
+                    .addComponent(cancelButton)))
         );
 
         registrationPageLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -264,9 +260,9 @@ public class RegistrationDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_registerButtonActionPerformed
 
-    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailFieldActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.dispose(); 
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,9 +270,8 @@ public class RegistrationDialog extends javax.swing.JDialog {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelButton;
     private javax.swing.JPanel credentialsPanel;
-    private javax.swing.JTextField emailField;
-    private javax.swing.JLabel emailLabel;
     private javax.swing.JPanel explanationPanel1;
     private javax.swing.JLabel invitationTextLbl;
     private javax.swing.JButton jButton1;

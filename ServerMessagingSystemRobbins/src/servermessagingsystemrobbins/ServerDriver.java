@@ -121,21 +121,33 @@ public class ServerDriver {
                        
                     case "LogOff" :
                         name = in.nextLine(); 
-                        result = server.logOff(name); 
-                        System.out.println(result);
-                        out.println(result); 
+                        User u = server.getUser(name); 
+                        if(server.verifyUser(name) == true && u.getStatus() == true){
+                           result = server.logOff(name); 
+                           System.out.println(result);
+                           out.println(result);  
+                        }                         
                         break;  
                         
                     case "Follow" : 
                         String personDoingFollowing = in.nextLine(); 
                         String personBeingFollowed = in.nextLine(); 
-                        out.println("okay");                    
-                        result = server.follow(personDoingFollowing, personBeingFollowed); 
-                        out.println(result);
-                        User u = server.getUser(personBeingFollowed); 
-                        NotificationThread nt = new NotificationThread(u, personDoingFollowing); 
-                        Thread t = new Thread(nt); 
-                        t.start(); 
+                        out.println("okay"); 
+                        if(server.verifyUser(personDoingFollowing) && server.verifyUser(personBeingFollowed) && !personDoingFollowing.equals(personBeingFollowed)) {
+                                result = server.follow(personDoingFollowing, personBeingFollowed); 
+                                out.println(result);
+                                u = server.getUser(personBeingFollowed); 
+                                NotificationThread nt = new NotificationThread(u, personDoingFollowing); 
+                                Thread t = new Thread(nt); 
+                                t.start();
+                        }
+                        else if(personDoingFollowing.equals(personBeingFollowed)) {
+                            out.println("Sorry stud, you can't follow yourself");
+                        }
+                        else {
+                            out.println("User does not exist"); 
+                        }
+                     
                         break; 
                      
                     case "Unfollow" :
@@ -272,11 +284,16 @@ public class ServerDriver {
     public String send(String sender, String hashtag, String message, LocalDate timestamp) {
         //check for registered user
         if(map.verifyUser(sender) == true) {
-           //User u = map.getUser(sender); 
-           String result = list.send(sender, hashtag, message, timestamp); 
-           return result; 
+           User u = map.getUser(sender);
+           if(u.checkStatus() == true) {
+                 String result = list.send(sender, hashtag, message, timestamp); 
+                 return result;
+            }
+           else{
+               return "Cannot send a message while not logged on"; 
            }
-       
+            
+         }       
         else {
             return "Something went wrong in the send function"; 
         }  
