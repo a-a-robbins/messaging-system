@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servermessagingsystemrobbins;
 
 import java.sql.Timestamp;
@@ -12,6 +7,8 @@ import java.time.LocalDate;
  *
  * @author a-a-robbins
  */
+
+//creates Message objects to store public message information
 public class Message {
     private String sender; 
     private String hashtag; 
@@ -42,6 +39,7 @@ public class Message {
         return timestamp; 
     }
     
+    //put all criteria together to make a message
     public String buildString() {
         String m = "date: " + timestamp + ",    sender: " + sender + ",     hashtag: " + hashtag + ",   message: " + message; 
         return m; 

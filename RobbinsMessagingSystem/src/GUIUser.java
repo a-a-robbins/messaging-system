@@ -1,24 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+import java.util.ArrayList;
+
 
 /**
  *
- * @author DanAsh4Ever
+ * @author a-a-robbins
  */
+
+//create a user on the GUI to store important information
 public class GUIUser {
     
     private String name; 
     private String pass; 
     private String address; //FIXME: how do we get the address??
     private boolean status; 
+    private ArrayList<String> messages; 
     
     public GUIUser(String name) {
         this.name = name; 
-        //this.pass = pass; 
-        this.status = true; 
+        this.status = true;
+        //keep a list of public messages the user has sent during current session
+        messages = new ArrayList<String>(); 
     }
     
     public void setName(String n) {
@@ -37,18 +39,22 @@ public class GUIUser {
         return pass; 
     }
     
-    public boolean getStatus() {
+    public boolean checkStatus() {
         return status; 
     }
     
     public boolean setStatus(boolean stat) {
         status = stat;
-            //testing invalid log off
-                //status = true; 
+            //TEST: invalid log off
+            //status = true; 
         return status; 
     }
-  
-    public boolean checkStatus() {
-        return status; 
+   
+    public void addMessage(String m) {
+        messages.add(m); 
+    }
+    
+    public ArrayList getMessages() {
+        return messages; 
     }
 }

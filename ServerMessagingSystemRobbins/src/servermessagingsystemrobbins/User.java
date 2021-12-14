@@ -15,40 +15,45 @@ public class User {
     
     private String name; 
     private String pass; 
-    private String address; //not sure why this is showing not read?  
+    private String address;  
     private boolean status; 
     private FollowList peopleIAmFollowing = new FollowList(); 
     private FollowList peopleFollowingMe = new FollowList(); 
     
+    
+    //create a new user
     public User(String name, String pass) {
         this.name = name; 
         this.pass = pass; 
         this.status = false; 
     }
     
+    //return username
     public String getName() {
         return name; 
     }
     
+    //return password
     public String getPass() {
         return pass; 
     }
     
+    //return IP address
     public String getAddress() {
         return address; 
     }
     
-    public boolean getStatus() {
-        return status; 
-    }
     
+    //set user IP address
     public String setAddress(InetAddress addy) {
         address = addy.toString();
         address = address.substring(1); 
-        System.out.println(address);
+//        //TEST: did our address set
+//        System.out.println(address);
         return address; 
     }
     
+    //set user log in status
     public boolean setStatus(boolean stat) {
         status = stat;
             //testing invalid log off
@@ -56,17 +61,16 @@ public class User {
         return status; 
     }
   
+    //return rather online or not
     public boolean checkStatus() {
         return status; 
     }
-    
-    
-    //ONLY NEED USER IN THE USER MAP -- EVERYTHING ELSE CAN BE DONE STRINGS
-    
+
+    //check to see if already following and add person being followed
+    //to "people I am following" list of user wanting to do follow
     public String toFollow(String personToFollow) {
        String result; 
        
-       //CHECK TO SEE IF ALREADY FOLLOWING
        if(!peopleIAmFollowing.contains(personToFollow)) {
           result = peopleIAmFollowing.follow(personToFollow); 
        } 
@@ -78,10 +82,11 @@ public class User {
 
     }
     
+    //check to see if already being followed and add person doing 
+    //following to the "following me" list of user being followed
     public String beingFollow(String personDoingFollow) {
         String result; 
         
-      //CHECK TO SEE IF ALREADY FOLLOWING
       if(!peopleFollowingMe.contains(personDoingFollow)) {
          result = peopleFollowingMe.follow(personDoingFollow);
             if(result.equals(personDoingFollow + "added")) {
@@ -95,10 +100,11 @@ public class User {
        return result; 
     }
     
+    //verify already following and then remove user from their
+    //"people I am following" list
     public String toUnfollow(String personToUnfollow) {
         String result; 
         
-        //check to see if following
         if(peopleIAmFollowing.contains(personToUnfollow)) {
            result = peopleIAmFollowing.unfollow(personToUnfollow); 
         }
@@ -109,6 +115,8 @@ public class User {
         return result;
     }
     
+    //verify they were being followed and then remove user from 
+    //their "following me" list
     public String beingUnfollowed(String personDoingUnfollowing) {
         String result; 
         //check to see if following
@@ -121,7 +129,7 @@ public class User {
         return result; 
     }
     
-       
+    //intake type of list to display and return list   
     public FollowList display(String type) {
        switch(type) {
             case "peopleIAmFollowing" :
@@ -132,7 +140,7 @@ public class User {
                  
             default: 
                 FollowList empty = new FollowList(); 
-                empty.add("bad command, missing data"); 
+                empty.follow("bad command, missing data"); 
                 return empty; 
 
        } 

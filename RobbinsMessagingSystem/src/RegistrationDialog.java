@@ -5,18 +5,15 @@ import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
  * @author a-a-robbins
  */
+
+//create a dialog for user to register with name and password
 public class RegistrationDialog extends javax.swing.JDialog {
-        private static final String REGISTER = "Register";
+        private static final String REGISTER = "REGISTER";
         private String address; 
 
 
@@ -223,6 +220,7 @@ public class RegistrationDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
 
+    //contact server and register user
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         try {
             
@@ -260,6 +258,7 @@ public class RegistrationDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_registerButtonActionPerformed
 
+    //dispose of dialog if user chooses not to register
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.dispose(); 
     }//GEN-LAST:event_cancelButtonActionPerformed

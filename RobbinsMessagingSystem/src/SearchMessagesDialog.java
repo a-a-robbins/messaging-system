@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,9 +14,11 @@ import javax.swing.*;
  * @author a-a-robbins
  */
 
-//FIXME (12/3/2021): Nothing coming up when hit GO, also DONE has no functionality
+//create a dialog for users to search messages by keyword
 public class SearchMessagesDialog extends JDialog {
     private String address;
+    private static final String SEARCH = "SEARCH"; 
+    private static final String CONF = "OKAY"; 
     
     //constructor
     public SearchMessagesDialog(String address) {
@@ -68,11 +69,11 @@ public class SearchMessagesDialog extends JDialog {
     private class ListMouseListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
             if(e.getClickCount() >= 1) {
-                //do stuff
             }
         }
     }
     
+    //clear current list, contact server and populate any messages found
     private class SearchListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             //connect to server to search messages
@@ -94,14 +95,16 @@ public class SearchMessagesDialog extends JDialog {
                 PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
 
                 //do stuff as a protocol
-                out.println("Search");
+                out.println(SEARCH);
                 out.println(searchField.getText()); 
-                //pass username - FIXME: server side reveiving
-                //out.println(user); 
-                
 
-                //get confirmation back
-                if(in.nextLine().equals("okay"))
+
+                 //get confirmation back                
+                String conf = in.nextLine(); 
+//                //TEST: what conf did we get
+//                System.out.println("conf = " + conf); 
+               
+                if(conf.equals(CONF))
                 {
                     //get size of array
                    int size = Integer.parseInt(in.nextLine()); 
@@ -112,6 +115,7 @@ public class SearchMessagesDialog extends JDialog {
                        array[i] = in.nextLine();                   
                     }
 
+                    //add elements to JList
                     for(int i = 0; i < ((array.length)); i++) {
                         lm.addElement(array[i]); 
                     }
@@ -122,18 +126,17 @@ public class SearchMessagesDialog extends JDialog {
                 }
         }
         
-         catch (IOException x) {
-            
+         catch (IOException x) {            
             //print error
             System.err.println("IOEXCEPTION in searchListener" + x.getMessage());
         } 
-        }
+      }
     }
     
+    //dispose of dialog when user is finished
     private class DoneListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //this.dispose();
-            //dialog.dispose(); 
+          SearchMessagesDialog.this.dispose(); 
         }
     }
 }

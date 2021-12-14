@@ -1,5 +1,4 @@
 
-import javax.swing.JDialog;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,13 +12,12 @@ import javax.swing.JDialog;
  */
 public class GUIDriver {
      public static void main(String[] args) {
-      //TEST: see if adding stuff will change build version
-      System.out.println("Test in main at ServerDriver --- Delete me!");
+//      TEST: see if adding stuff will change build version
+//      System.out.println("Test in main at ServerDriver --- Delete me!");
        
        //create a new homepage frame (which everything else will be generated from)
         UserHomepageFrame homePage = new UserHomepageFrame();
         homePage.setVisible(true);
-
     }
     
     

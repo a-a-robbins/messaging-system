@@ -1,34 +1,39 @@
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  *
  * @author a-a-robbins
  */
-public class UserHomepageFrame extends javax.swing.JFrame {
-        private static final String LOGOFF = "LogOff"; 
+
+//create a frame from which all other dialogs can be generated from
+public class UserHomepageFrame extends javax.swing.JFrame { 
         GUIUser gu = new GUIUser(""); 
-        private String address = "localhost"; 
-    /**
+        private String address = "localhost";   
+        private ListenerThread lt = new ListenerThread(); 
+        private Thread t = new Thread(lt);
+        private static final String LOGOFF = "LOGOFF";
+        private static final String SHUTDOWN = "SHUTDOWN"; 
+
+     /**
      * Creates new form UserHomepageFrame
      */
     public UserHomepageFrame() {
         initComponents();
-        
+        addWindowListener(new Close());
+                
         //create new landing page dialog (log in/register)
-        UserLandingPage dialog = new UserLandingPage(new javax.swing.JFrame(), true, address);
+        UserLandingPage dialog = new UserLandingPage(new javax.swing.JFrame(), true, address, t);
            
             //in case dialog is exited without completing log in process
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -38,9 +43,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                     }
                 });
             dialog.setVisible(true);
-            
-            
-            
+   
             //creating a GUIUser to save important user info
             gu.setName(dialog.getUsername()); 
 
@@ -76,6 +79,11 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         usernameLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         viewMessagesLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         viewMessagesLabel.setText("View Messages");
@@ -273,20 +281,22 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //create the view messages dialog
     private void viewMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewMessagesButtonActionPerformed
-        JDialog dialog = new ViewMessagesDialog(gu.getName(), address); 
+        JDialog dialog = new ViewMessagesDialog(gu.getName(), address, gu); 
         dialog.setSize(600, 400); 
         dialog.setVisible(true); 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
        
     }//GEN-LAST:event_viewMessagesButtonActionPerformed
 
+//create a dialog for users to send public messages
     private void createMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMessageButtonActionPerformed
                     
         String username = gu.getName();     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true, username, address);
+                SendMessageDialog dialog = new SendMessageDialog(new javax.swing.JFrame(), true, username, address, gu);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -298,26 +308,41 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         }); 
     }//GEN-LAST:event_createMessageButtonActionPerformed
 
+    //contact server to execute log off request
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOffButtonActionPerformed
         try {
+            //create a host
             String host = address; 
+            //create a socket connection
             Socket sock = new Socket(host, 2001); 
+            //create IO stream
             Scanner in = new Scanner(sock.getInputStream()); 
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-            
+            //do stuff as a protocol
             out.println(LOGOFF);
             out.println(usernameLbl.getText()); 
             JOptionPane.showMessageDialog(UserHomepageFrame.this, in.nextLine()); 
-            gu.setStatus(false); 
+            gu.setStatus(false);
+            
+            //open a connection on port 2008 to localhost and tell it not to stayalive
+            String threadHost = "localhost"; 
+            Socket threadSocket = new Socket(host, 2008); 
+            PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
+            threadOut.println(SHUTDOWN);
         }
         
         catch(IOException e) {
             System.err.println("IOException: in logOffButtonAction: " + e.getMessage());
          }
         
-        System.exit(0); 
+        //dispose of current homepage frame
+        this.dispose(); 
+        //create new homepage frame to circle user back to log in
+        UserHomepageFrame frame = new UserHomepageFrame(); 
+        frame.setVisible(true); 
     }//GEN-LAST:event_logOffButtonActionPerformed
 
+    //create dialog for user to follow/unfollow/see friends
     private void friendsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendsButtonActionPerformed
        FollowingListDialog dialog = new FollowingListDialog(new javax.swing.JFrame(), true, gu, address);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -330,13 +355,15 @@ public class UserHomepageFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_friendsButtonActionPerformed
 
+    //create dialog for user to search messages by keyword
     private void searchMessagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMessagesButtonActionPerformed
- /* Create and display the dialog */
+    /* Create and display the dialog */
         JDialog dialog = new SearchMessagesDialog(address); 
         dialog.setSize(600, 400); 
         dialog.setVisible(true); 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);    }//GEN-LAST:event_searchMessagesButtonActionPerformed
 
+    //create dialog for user to send private messages
     private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -345,13 +372,52 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     }
                 });
                 dialog.setVisible(true);
             }
         });
     }//GEN-LAST:event_sendMessageButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+    }//GEN-LAST:event_formWindowClosing
+
+    //Log off user at window closing event and reroute to log in dialog
+    private class Close extends WindowAdapter {
+        public void windowClosing(WindowEvent e) {
+            try {
+                //create a host
+                String host = address; 
+                //create a socket connection
+                Socket sock = new Socket(host, 2001);
+                //create IO stream
+                Scanner in = new Scanner(sock.getInputStream()); 
+                PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+                //do stuff as a protocol
+                out.println(LOGOFF);
+                out.println(usernameLbl.getText()); 
+                JOptionPane.showMessageDialog(UserHomepageFrame.this, in.nextLine()); 
+                gu.setStatus(false); 
+                
+                //open a connection on port 2008 to localhost and tell it not to stayalive
+                String threadHost = "localhost"; 
+                Socket threadSocket = new Socket(host, 2008); 
+                PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
+                threadOut.println(SHUTDOWN);
+        }
+        
+        catch(IOException x) {
+            System.err.println("IOException: in logOffButtonAction: " + x.getMessage());
+         }
+            //dispose of current homepage frame
+            UserHomepageFrame.this.dispose();  
+            //generate new homepage frame which redirects to log in dialog
+            UserHomepageFrame frame = new UserHomepageFrame();
+            frame.setVisible(true); 
+        }
+    }
 
     /**
      * @param args the command line arguments

@@ -5,18 +5,17 @@ import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
- * @author DanAsh4Ever
+ * @author a-a-robbins
  */
+
+//send private messages between clients without accessing server
 public class PrivateMessageDialog extends javax.swing.JDialog {
-    private String serverAddress; 
+    private String serverAddress;
+    private static final String CONF = "OKAY"; 
+    public static final String PRIVATE = "PRIVATE"; 
 
     /**
      * Creates new form PrivateMessageDialog
@@ -171,13 +170,14 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //send a private message by contacting server for IP address
+    //of other user and then sending directly to that address
     private void sendButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButton1ActionPerformed
         try {
-            //create a host, localhost = local machine (no need for IP address)
-            //talk to server to check if user is online and get their IP address
+            //create a host
             String host = serverAddress;
-            //TEST: what is the address we are trying to get information from
-            System.out.println("Server Address to get our recievee info: " + serverAddress);
+//            //TEST: what is the address we are trying to get information from
+//            System.out.println("Server Address to get our recievee info: " + serverAddress);
 
             //connect to specified host on Server port#
             Socket sock = new Socket(host, 2001);
@@ -191,38 +191,38 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
             out.println(toField.getText());
             
             String conf = in.nextLine(); 
-            //TEST: what was our conf
-            System.out.println("Conf = " + conf); 
+//            //TEST: what was our conf
+//            System.out.println("Conf = " + conf); 
      
             
             //check for response from server
-            if(conf.equals("okay")) {
+            if(conf.equals(CONF)) {
                 String userAddress = in.nextLine(); 
-                //TEST: what address did we get from the server
-                System.out.println("Recievee's address from server: " + userAddress); 
+//                //TEST: what address did we get from the server
+//                System.out.println("Recievee's address from server: " + userAddress); 
                 
                  
                 
                 Socket threadSocket = new Socket(userAddress, 2008); 
-                //TEST: did our socket actually create
-                System.out.println("threadSocket connected to: " + threadSocket.getInetAddress());
-                System.out.println("threadSocket bound to: " + threadSocket.getLocalAddress()); 
+//                //TEST: did our socket actually create
+//                System.out.println("threadSocket connected to: " + threadSocket.getInetAddress());
+//                System.out.println("threadSocket bound to: " + threadSocket.getLocalAddress()); 
                 
                 Scanner threadIn = new Scanner(threadSocket.getInputStream()); 
                 PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
-                //TEST: did our scanner/printwriter create
-                System.out.println("Scanner address: " + threadIn); 
-                System.out.println("Printwriter address: " + threadOut); 
+//                //TEST: did our scanner/printwriter create
+//                System.out.println("Scanner address: " + threadIn); 
+//                System.out.println("Printwriter address: " + threadOut); 
                 
-                String protocol = "PRIVATE"; 
+                String protocol = PRIVATE; 
                 threadOut.println(protocol);
-                //TEST: did our protocol send
-                System.out.println(protocol); 
+//                //TEST: did our protocol send
+//                System.out.println(protocol); 
                 conf = threadIn.nextLine(); 
-                //TEST: what was our conf
-                System.out.println("Conf = " + conf);
+//                //TEST: what was our conf
+//                System.out.println("Conf = " + conf);
                 
-                    if (conf.equals("OKAY")) {
+                    if (conf.equals(CONF)) {
                         threadOut.println(hashtagField.getText());
                         threadOut.println(messageField.getText()); 
                     }
@@ -252,6 +252,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_sendButton1ActionPerformed
 
+    //dispose of dialog when user is finished
     private void cancelButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButton1ActionPerformed
         this.dispose(); 
 

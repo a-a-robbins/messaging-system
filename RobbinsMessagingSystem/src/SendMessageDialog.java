@@ -5,25 +5,25 @@ import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author a-a-robbins
  */
+
+//create a dialog for users to send public messages
 public class SendMessageDialog extends javax.swing.JDialog {
 
    private String sender; 
    private String address; 
+   private GUIUser gu; 
+   private static final String SEND = "SEND"; 
+   private static final String CONF = "OKAY"; 
    
-    public SendMessageDialog(java.awt.Frame parent, boolean modal, String username, String address) {
+    public SendMessageDialog(java.awt.Frame parent, boolean modal, String username, String address, GUIUser gu) {
         super(parent, modal);
         this.sender = username; 
         this.address = address; 
+        this.gu = gu; 
 
         initComponents();
     }
@@ -173,6 +173,7 @@ public class SendMessageDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //dispose of dialog when user is finished
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
           this.dispose(); 
             
@@ -180,27 +181,29 @@ public class SendMessageDialog extends javax.swing.JDialog {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
             try { 
-            //create a host, localhost = local machine (no need for IP address)
+            //create a host
             String host = address; 
 
             //connect to specified host on Server port#
             Socket sock = new Socket(host, 2001); 
             
             //create IO stream from socket
-            Scanner in = new Scanner(sock.getInputStream()); 
-            
-            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
-            
+            Scanner in = new Scanner(sock.getInputStream());            
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);             
                     
             //create protocol
-            out.println("Send");
+            out.println(SEND);
             out.println(sender); 
             out.println(hashtagField.getText()); 
-            out.println(messageField.getText());  
+            out.println(messageField.getText()); 
             
+            //store message locally
+            gu.addMessage("Hashtag: " + hashtagField.getText() + " Message: " + messageField.getText());
+                
             //check for response from server
-            if(in.nextLine().equals("okay")) {
-               String result = in.nextLine(); //result should be some sort of success message when saves to server 
+            String conf = in.nextLine(); 
+            if(conf.equals(CONF)) {
+               String result = in.nextLine(); 
                JOptionPane.showMessageDialog(SendMessageDialog.this, result); 
            
                 //reset text fields after message sent
@@ -210,12 +213,10 @@ public class SendMessageDialog extends javax.swing.JDialog {
             
             else { 
                 JOptionPane.showMessageDialog(SendMessageDialog.this, "Something went wrong in the send function");
-            } 
-            
+            }  
          }
        
        catch (IOException e) {
-           //generate error message, perhaps write to log later
            System.err.println("IOEXCEPTION in sendMessageAction: " + e.getMessage());
        }
     }//GEN-LAST:event_sendButtonActionPerformed

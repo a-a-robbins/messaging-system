@@ -1,4 +1,7 @@
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -6,27 +9,26 @@ import java.util.Scanner;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author a-a-robbins
  */
+
+//create a dialog for user to log in, register, or learn more
 public class UserLandingPage extends javax.swing.JDialog {
-    private static final String LOGON = "LogOn"; 
+    private static final String LOGON = "LOGON";
     private String address; 
+    private Thread t; 
 
     /**
      * Creates new form UserLandingPage
      */
-    public UserLandingPage(java.awt.Frame parent, boolean modal, String address) {
+    public UserLandingPage(java.awt.Frame parent, boolean modal, String address, Thread t) {
         super(parent, modal);
         initComponents();
         this.address = address; 
+        this.t = t; 
+        addWindowListener(new Close());
     }
     
     public String getUsername() {
@@ -72,6 +74,11 @@ public class UserLandingPage extends javax.swing.JDialog {
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         welcomeLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         welcomeLabel.setText("Welcome!");
@@ -286,6 +293,7 @@ public class UserLandingPage extends javax.swing.JDialog {
         
     }//GEN-LAST:event_usernameFieldActionPerformed
 
+    //create dialog for user to enter information and register
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         //create new registration dialog
         RegistrationDialog dialog = new RegistrationDialog(new javax.swing.JFrame(), true, address);
@@ -305,6 +313,7 @@ public class UserLandingPage extends javax.swing.JDialog {
     private void registerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseClicked
                 }//GEN-LAST:event_registerButtonMouseClicked
 
+    //contact server to verify user credentials and complete log in request
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInButtonActionPerformed
        
        try { 
@@ -320,7 +329,7 @@ public class UserLandingPage extends javax.swing.JDialog {
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
             
                     
-            //create protocol
+            //do stuff as a protocol
             out.println(LOGON); 
             out.println(usernameField.getText()); 
             out.println(passwordField.getText());  
@@ -332,9 +341,7 @@ public class UserLandingPage extends javax.swing.JDialog {
             if(result.equals("valid log on")) { 
                 this.dispose(); 
                  //start thread
-         ListenerThread lt = new ListenerThread(); 
-         Thread t = new Thread(lt); 
-         t.start();
+                 t.start();
             }      
             
        }
@@ -351,42 +358,43 @@ public class UserLandingPage extends javax.swing.JDialog {
     }//GEN-LAST:event_aboutButtonKeyPressed
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
-        if(evt.equals("Enter")) {
-            try { 
-            //create a host, localhost = local machine (no need for IP address)
-            String host = address; 
-
-            //connect to specified host on Server port#
-            Socket sock = new Socket(host, 2001); 
-            
-            //create IO stream from socket
-            Scanner in = new Scanner(sock.getInputStream()); 
-            
-            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
-            
-                    
-            //create protocol
-            out.println(LOGON); 
-            out.println(usernameField.getText()); 
-            out.println(passwordField.getText());  
-            
-            String result = in.nextLine(); 
-            JOptionPane.showMessageDialog(UserLandingPage.this, result); 
-            
-            //close dialog but not system
-            if(result.equals("valid log on")) { 
-                this.dispose(); 
-            }      
-            
-       }
-       
-       catch (IOException e) {
-           //generate error message, perhaps write to log later
-           System.err.println("IOEXCEPTION in passwordKeyFieldPressed: " + e.getMessage());
-       }
-        }
+//        if(evt.equals("Enter")) {
+//            try { 
+//            //create a host, localhost = local machine (no need for IP address)
+//            String host = address; 
+//
+//            //connect to specified host on Server port#
+//            Socket sock = new Socket(host, 2001); 
+//            
+//            //create IO stream from socket
+//            Scanner in = new Scanner(sock.getInputStream()); 
+//            
+//            PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
+//            
+//                    
+//            //create protocol
+//            out.println(LOGON); 
+//            out.println(usernameField.getText()); 
+//            out.println(passwordField.getText());  
+//            
+//            String result = in.nextLine(); 
+//            JOptionPane.showMessageDialog(UserLandingPage.this, result); 
+//            
+//            //close dialog but not system
+//            if(result.equals("valid log on")) { 
+//                this.dispose(); 
+//            }      
+//            
+//       }
+//       
+//       catch (IOException e) {
+//           //generate error message, perhaps write to log later
+//           System.err.println("IOEXCEPTION in passwordKeyFieldPressed: " + e.getMessage());
+//       }
+//        }
     }//GEN-LAST:event_passwordFieldKeyPressed
 
+    //create a JOptionPane message to inform user about what the system does
     private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
         JDialog dialog = new JDialog(); 
         JOptionPane.showMessageDialog(dialog, "Hello, we are glad you're intersted in being part of our community! "
@@ -394,6 +402,17 @@ public class UserLandingPage extends javax.swing.JDialog {
                 + "in addition you have the ability to follow people of interest and then can follow you as well!");
     }//GEN-LAST:event_aboutButtonActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    }//GEN-LAST:event_formWindowClosing
+
+    //exit system on window closing
+    private class Close extends WindowAdapter {
+        public void windowClosing(WindowEvent e) {
+            System.exit(0); 
+        }
+    }    
+    
+    
     /**
      * @param args the command line arguments
      */

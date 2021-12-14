@@ -6,31 +6,21 @@ import java.util.Scanner;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author a-a-robbins
  */
-public class FollowingListDialog extends javax.swing.JDialog {
-        
-        //keywords for server
-         private static final String FOLLOW = "Follow"; 
-         private static final String UNFOLLOW = "Unfollow"; 
-         private static final String DISPLAY = "Display"; 
-         private DefaultListModel lm; 
 
+//create a JDialog to follow/unfollow/display followers
+public class FollowingListDialog extends javax.swing.JDialog {
+private static final String FOLLOW = "FOLLOW";          private static final String UNFOLLOW = "UNFOLLOW"; 
+private static final String DISPLAY = "DISPLAY";
+private static final String CONF = "OKAY"; 
+private DefaultListModel lm; 
 
         //create a user to store info that gets passed 
          private GUIUser user = new GUIUser(""); // ?? how can I get around needing to do this ??
          private String address; 
-
-
-
 
     /**
      * Creates new form FollowingListDialog
@@ -38,11 +28,12 @@ public class FollowingListDialog extends javax.swing.JDialog {
     public FollowingListDialog(java.awt.Frame parent, boolean modal, GUIUser gu, String address) {
         super(parent, modal);
         
-         lm = new DefaultListModel(); 
+        //initialize list model
+        lm = new DefaultListModel(); 
 
         initComponents();
         
-        
+        //set model to list
         followList.setModel(lm);
         
         
@@ -227,7 +218,8 @@ public class FollowingListDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //contact server to complete follow request
     private void followBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_followBtnActionPerformed
         try {
             //create a host
@@ -247,7 +239,8 @@ public class FollowingListDialog extends javax.swing.JDialog {
 
             
             //get confirmation back
-            if(in.nextLine().equals("okay"))
+            String conf = in.nextLine(); 
+            if(conf.equals(CONF))
             {
                 String result = in.nextLine(); 
                 
@@ -273,6 +266,7 @@ public class FollowingListDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_followBtnActionPerformed
 
+    //contact server to complete unfollow request
     private void unfollowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfollowBtnActionPerformed
          try {
             //create a host
@@ -292,7 +286,8 @@ public class FollowingListDialog extends javax.swing.JDialog {
 
             
             //get confirmation back
-            if(in.nextLine().equals("okay"))
+            String conf = in.nextLine(); 
+            if(conf.equals(CONF))
             {
                 String result = in.nextLine(); 
                                 
@@ -320,8 +315,9 @@ public class FollowingListDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_unfollowBtnActionPerformed
 
+    //contact server to get list of people user is following
     private void peopleImFollowingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peopleImFollowingBtnActionPerformed
-try {
+        try {
             //clear text area
             lm.removeAllElements(); 
             //create an array of strings
@@ -345,7 +341,8 @@ try {
             listLbl.setText("People I Am Following");
             
             //get confirmation back
-            if(in.nextLine().equals("okay"))
+            String conf = in.nextLine(); 
+            if(conf.equals(CONF))
             {
                 //get size of array
                int size = Integer.parseInt(in.nextLine()); 
@@ -376,6 +373,7 @@ try {
             System.err.println(" in peopleImFollowingAction: " + e.getMessage());
         }    }//GEN-LAST:event_peopleImFollowingBtnActionPerformed
 
+    //contact server to get list of people following user
     private void peopleFollowingMeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peopleFollowingMeBtnActionPerformed
         try {
             //clear text area
@@ -402,7 +400,8 @@ try {
             listLbl.setText("People Following Me");
             
             //get confirmation back
-            if(in.nextLine().equals("okay"))
+            String conf = in.nextLine(); 
+            if(conf.equals(CONF))
             {
                 //get size of array
                int size = Integer.parseInt(in.nextLine()); 
@@ -430,6 +429,7 @@ try {
     private void searchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFldActionPerformed
     }//GEN-LAST:event_searchFldActionPerformed
 
+    //dispose of dialog when user is done
     private void doneBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneBtnActionPerformed
         this.dispose(); 
     }//GEN-LAST:event_doneBtnActionPerformed
