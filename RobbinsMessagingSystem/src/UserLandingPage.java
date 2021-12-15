@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class UserLandingPage extends javax.swing.JDialog {
     private static final String LOGON = "LOGON";
     private String address; 
-    private Thread t; 
+    private Thread fixme; 
 
     /**
      * Creates new form UserLandingPage
@@ -27,7 +27,7 @@ public class UserLandingPage extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.address = address; 
-        this.t = t; 
+        fixme = t; 
         addWindowListener(new Close());
     }
     
@@ -340,8 +340,11 @@ public class UserLandingPage extends javax.swing.JDialog {
             //close dialog but not system
             if(result.equals("valid log on")) { 
                 this.dispose(); 
-                 //start thread
-                 t.start();
+           
+           ListenerThread lt = new ListenerThread(); 
+           Thread t = new Thread(lt); 
+           //start thread
+           t.start();
             }      
             
        }

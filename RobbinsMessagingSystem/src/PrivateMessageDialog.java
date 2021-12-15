@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
 public class PrivateMessageDialog extends javax.swing.JDialog {
     private String serverAddress;
     private static final String CONF = "OKAY"; 
-    public static final String PRIVATE = "PRIVATE"; 
+    private static final String PRIVATE = "PRIVATE";
+    private static final String GET = "GET"; 
 
     /**
      * Creates new form PrivateMessageDialog
@@ -187,7 +188,7 @@ public class PrivateMessageDialog extends javax.swing.JDialog {
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
 
             //create protocol
-            out.println("Get");
+            out.println(GET);
             out.println(toField.getText());
             
             String conf = in.nextLine(); 
