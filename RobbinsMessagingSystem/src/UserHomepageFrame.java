@@ -20,8 +20,8 @@ import javax.swing.JOptionPane;
 public class UserHomepageFrame extends javax.swing.JFrame { 
         GUIUser gu = new GUIUser(""); 
         private String address = "localhost";   
-        private ListenerThread lt = new ListenerThread(); 
-        private Thread t = new Thread(lt);
+//        private ListenerThread lt = new ListenerThread(); 
+//        private Thread t = new Thread(lt);
         private static final String LOGOFF = "LOGOFF";
         private static final String SHUTDOWN = "SHUTDOWN"; 
 
@@ -33,15 +33,18 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         addWindowListener(new Close());
                 
         //create new landing page dialog (log in/register)
-        UserLandingPage dialog = new UserLandingPage(new javax.swing.JFrame(), true, address, t);
+        UserLandingPage dialog = new UserLandingPage(new javax.swing.JFrame(), true, address);
            
-            //in case dialog is exited without completing log in process
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                    }
-                });
+           // in case dialog is exited without completing log in process
+//            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        //TEST: let me know before we exit
+////                        System.out.println("ATTENTION: system is exiting"); 
+////                         System.exit(0);
+//                        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//                    }
+//                });
             dialog.setVisible(true);
    
             //creating a GUIUser to save important user info
@@ -337,9 +340,15 @@ public class UserHomepageFrame extends javax.swing.JFrame {
         
         //dispose of current homepage frame
         this.dispose(); 
+        //TEST: do we make it past dispose statement
+//        System.out.println("We have made it past this.dispose()"); 
         //create new homepage frame to circle user back to log in
         UserHomepageFrame frame = new UserHomepageFrame(); 
+        //TEST: did we start a new homepage frame
+//        System.out.println("We have started a new UserHomepageFrame"); 
         frame.setVisible(true); 
+        //TEST: for funsies, did we set visible
+//        System.out.println("Is the frame visible? " + frame.isVisible()); 
     }//GEN-LAST:event_logOffButtonActionPerformed
 
     //create dialog for user to follow/unfollow/see friends
@@ -413,9 +422,15 @@ public class UserHomepageFrame extends javax.swing.JFrame {
          }
             //dispose of current homepage frame
             UserHomepageFrame.this.dispose();  
+            //TEST: did we make it past dispose
+//            System.out.println("We are past UserHomepageFrame.this.dispose()"); 
             //generate new homepage frame which redirects to log in dialog
             UserHomepageFrame frame = new UserHomepageFrame();
+            //TEST: have we gotten this far
+//            System.out.println("About to create new frame"); 
             frame.setVisible(true); 
+            //TEST: for funsies, did we set visible
+//            System.out.println("Is the frame visible? " + frame.isVisible()); 
         }
     }
 
@@ -444,3 +459,4 @@ public class UserHomepageFrame extends javax.swing.JFrame {
     private javax.swing.JLabel viewMessagesLabel;
     // End of variables declaration//GEN-END:variables
 }
+                

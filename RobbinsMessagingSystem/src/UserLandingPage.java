@@ -18,16 +18,14 @@ import javax.swing.JOptionPane;
 public class UserLandingPage extends javax.swing.JDialog {
     private static final String LOGON = "LOGON";
     private String address; 
-    private Thread fixme; 
 
     /**
      * Creates new form UserLandingPage
      */
-    public UserLandingPage(java.awt.Frame parent, boolean modal, String address, Thread t) {
+    public UserLandingPage(java.awt.Frame parent, boolean modal, String address) {
         super(parent, modal);
         initComponents();
         this.address = address; 
-        fixme = t; 
         addWindowListener(new Close());
     }
     
@@ -345,7 +343,7 @@ public class UserLandingPage extends javax.swing.JDialog {
            Thread t = new Thread(lt); 
            //start thread
            t.start();
-            }      
+          }      
             
        }
        
@@ -411,7 +409,9 @@ public class UserLandingPage extends javax.swing.JDialog {
     //exit system on window closing
     private class Close extends WindowAdapter {
         public void windowClosing(WindowEvent e) {
-            System.exit(0); 
+            //TEST: we are about to exit
+//            System.out.println("ATTENTION: We are about to exit"); 
+            System.exit(0);
         }
     }    
     

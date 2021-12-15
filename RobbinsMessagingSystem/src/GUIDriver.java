@@ -18,6 +18,8 @@ public class GUIDriver {
        //create a new homepage frame (which everything else will be generated from)
         UserHomepageFrame homePage = new UserHomepageFrame();
         homePage.setVisible(true);
+        //TEST: did we reach end of main?
+//        System.out.println("End of main reached"); 
     }
     
     
