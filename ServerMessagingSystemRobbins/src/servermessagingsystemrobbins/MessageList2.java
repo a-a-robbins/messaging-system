@@ -73,7 +73,7 @@ public MessageList2 retrieve(String keyword, FollowList sender, LocalDate timest
                Message m = list.get(i);
                for(int j = 0; j < followList.length; j++) {
                    if(followList[j].equals(m.getSender())) {
-                       if(m.getTimestamp().isAfter(readTime) && ((m.getTimestamp().isBefore(LocalDate.now())) || (m.getTimestamp().isEqual(LocalDate.now())))) {
+                       if(m.getTimestamp().isAfter(readTime) && ((m.getTimestamp().isEqual(LocalDate.now())) || (m.getTimestamp().isBefore(LocalDate.now())))) {
                            mList.add(m); 
                        }
                    }
