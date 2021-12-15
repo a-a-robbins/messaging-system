@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-//import java.time.LocalDate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -50,13 +49,13 @@ public class ServerDriver {
 //      System.out.println("Test in main at ServerDriver --- Delete me!");
       
      //only need try/catch if logging a user on in the test section
-      try {
+//      try {
       //TEST: register and log in test users
       String name = "Miles";
       String pass = "pwd1"; 
       server.register(name, pass); 
-      server.logOn(name, pass, InetAddress.getLocalHost()); 
-        System.out.println("Miles logged on");      
+//      server.logOn(name, pass, InetAddress.getLocalHost()); 
+//        System.out.println("Miles logged on");      
       
       name = "Mazie"; 
       pass = "pwd1"; 
@@ -67,8 +66,8 @@ public class ServerDriver {
       name = "Tinkerbell"; 
       pass = "pwd2"; 
       server.register(name, pass); 
-      server.logOn(name, pass, InetAddress.getLocalHost());
-        System.out.println("Tinkerbell logged on"); 
+//      server.logOn(name, pass, InetAddress.getLocalHost());
+//        System.out.println("Tinkerbell logged on"); 
       
       //TEST:  follow connection
       server.follow("Miles", "Tinkerbell");
@@ -84,17 +83,17 @@ public class ServerDriver {
       server.send("Miles", "future", "test message in future from Miles", LocalDate.parse("2044-03-29"));
       server.send("Tinkerbell", "future", "test message in future #2 from Tinkerbell", LocalDate.parse("2052-01-01"));
             
-      }
-      
-      //only need when logging on in test section above
-      catch(UnknownHostException uh) {
-          System.err.println("UnknownHostException in ServerDriver: " + uh.getMessage());
-      }
+//      }
+//      
+//      //only need when logging on in test section above
+//      catch(UnknownHostException uh) {
+//          System.err.println("UnknownHostException in ServerDriver: " + uh.getMessage());
+//      }
       
       
       String result; 
-      String name; 
-      String pass; 
+//      String name; 
+//      String pass; 
         
         try {
             

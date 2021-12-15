@@ -51,7 +51,7 @@ public class NotificationThread implements Runnable {
                     PrintWriter out = new PrintWriter(sock.getOutputStream(), true); 
 
                     //do stuff as a protocol
-                    out.println(CONF); 
+                    out.println(FOLLOW); 
 
                     //get confirmation back
                     String conf = in.nextLine(); 

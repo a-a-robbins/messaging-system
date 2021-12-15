@@ -326,7 +326,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
             
             //open a connection on port 2008 to localhost and tell it not to stayalive
             String threadHost = "localhost"; 
-            Socket threadSocket = new Socket(host, 2008); 
+            Socket threadSocket = new Socket(threadHost, 2008); 
             PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
             threadOut.println(SHUTDOWN);
         }
@@ -403,7 +403,7 @@ public class UserHomepageFrame extends javax.swing.JFrame {
                 
                 //open a connection on port 2008 to localhost and tell it not to stayalive
                 String threadHost = "localhost"; 
-                Socket threadSocket = new Socket(host, 2008); 
+                Socket threadSocket = new Socket(threadHost, 2008); 
                 PrintWriter threadOut = new PrintWriter(threadSocket.getOutputStream(), true); 
                 threadOut.println(SHUTDOWN);
         }
