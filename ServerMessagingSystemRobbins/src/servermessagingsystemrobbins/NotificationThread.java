@@ -17,9 +17,9 @@ import java.util.Scanner;
  * @author a-a-robbins
  */
 public class NotificationThread implements Runnable {
-    String address; 
-    String name; 
-    User personBeingFollowed;
+    private String address; 
+    private String name; 
+    private User personBeingFollowed;
     private static final String FOLLOW = "FOLLOW"; 
     private static final String CONF = "OKAY"; 
     
