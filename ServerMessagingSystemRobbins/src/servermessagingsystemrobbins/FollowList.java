@@ -24,13 +24,18 @@ public class FollowList {
     
     //add username to the arraylist
     public String follow(String name) {
-        list.add(name);         
+        if(list.add(name)) {
+             return name;
+        }
+                
       //test print
         //for(int i = 0; i < list.size(); i++) {
             //System.out.println(list); 
       //  }
       
-        return name; 
+        else {
+            return "Something went wrong in the follow method in FollowList"; 
+        }
     }
     
     //remove username from arraylist
